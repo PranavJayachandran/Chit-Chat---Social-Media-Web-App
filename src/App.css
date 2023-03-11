@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.blackwhite {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+input[type="file"] {
+  display: none;
+}

@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { removeEmail } from "../redux/features/counter/counterSlice";
 import { getAuth, signOut } from "firebase/auth";
 import app, { db } from "../firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { motion } from "framer-motion";
@@ -48,12 +48,14 @@ export default function Navbar() {
     <div className="border-r h-screen  text-white pl-10 items-start flex flex-col justify-between py-10">
       <div className="text-2xl text-left ">Name</div>
       <div className="text-left flex flex-col gap-5">
-        <div className="flex gap-4 items-center">
-          <div>
-            <AiFillHome className="h-7 w-7" />
+        <Link to={`/${localStorage.getItem("Email")}`}>
+          <div className="flex gap-4 items-center">
+            <div>
+              <AiFillHome className="h-7 w-7" />
+            </div>
+            <div>Home</div>
           </div>
-          <div>Home</div>
-        </div>
+        </Link>
         <div className="flex gap-4 items-center">
           <div
             className={`flex gap-4 cursor-pointer ${
@@ -103,12 +105,14 @@ export default function Navbar() {
           </div>
           <div>Notifications</div>
         </div>
-        <div className="flex gap-4 items-center">
-          <div>
-            <FaUserFriends className="h-7 w-7" />
+        <Link to="/meetpeople">
+          <div className="flex gap-4 items-center">
+            <div>
+              <FaUserFriends className="h-7 w-7" />
+            </div>
+            <div>Meet People</div>
           </div>
-          <div>Meet People</div>
-        </div>
+        </Link>
       </div>
       <div
         onClick={signout}

@@ -36,6 +36,7 @@ export default function Editprofile() {
       image: image,
       lat: lat,
       long: long,
+      friend: [],
     });
     getData();
     navigate("/");
@@ -98,33 +99,39 @@ export default function Editprofile() {
           </div>
           <div className="flex gap-4 items-center justify-center">
             <div className="font-semibold text-lg">Username :</div>
-            <input
-              className="w-96 bg-black border rounded-lg p-2"
-              onChange={(e) => {
-                setUserName(e.target.value);
-              }}
-              value={userName}
-            />
+            <div className="border rounded-lg">
+              <input
+                className="w-96 bg-black border rounded-lg p-2"
+                onChange={(e) => {
+                  setUserName(e.target.value);
+                }}
+                value={userName}
+              />
+            </div>
           </div>
           <div className="flex gap-4 ml-[53px] items-center">
             <div className="font-semibold text-lg">Bio :</div>
-            <input
-              className="w-96 bg-black border rounded-lg p-2"
-              onChange={(e) => {
-                setBio(e.target.value);
-              }}
-              value={bio}
-            />
+            <div className="border rounded-lg">
+              <input
+                className="w-96 bg-black border rounded-lg p-2"
+                onChange={(e) => {
+                  setBio(e.target.value);
+                }}
+                value={bio}
+              />
+            </div>
           </div>
           <div className="flex gap-4 ml-[46px] items-center">
             <div className="font-semibold text-lg">Link :</div>
-            <input
-              className="w-96 bg-black border rounded-lg p-2"
-              onChange={(e) => {
-                setLink(e.target.value);
-              }}
-              value={link}
-            />
+            <div className="border rounded-lg">
+              <input
+                className="w-96 bg-black border rounded-lg p-2"
+                onChange={(e) => {
+                  setLink(e.target.value);
+                }}
+                value={link}
+              />
+            </div>
           </div>
           <div className="flex justify-center" onClick={addData}>
             <div className="bg-gray-100 text-black px-4 py-2 rounded-xl hover:bg-black hover:text-gray-100 transition cursor-pointer border">

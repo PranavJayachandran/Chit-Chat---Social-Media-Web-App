@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { db, storage } from "../firebase/firestore";
@@ -15,6 +15,10 @@ export default function Editprofile() {
   const [bio, setBio] = useState();
   const [link, setLink] = useState();
   const [image, setImage] = useState();
+  const [lat, setLat] = useState();
+  const [long, setLong] = useState();
+  const [friend, setFriend] = useState([]);
+
   const [progresspercent, setProgresspercent] = useState(0);
 
   const addData = async () => {
@@ -25,9 +29,12 @@ export default function Editprofile() {
       link: link,
       email: email,
       image: image,
+      lat: lat,
+      long: long,
+      friend: friend,
     });
     getData();
-    navigate("/");
+    navigate(`/${localStorage.getItem("Email")}`);
   };
 
   const getData = async () => {
@@ -36,6 +43,13 @@ export default function Editprofile() {
 
     if (docSnap.exists()) {
       console.log("Document data:", docSnap.data());
+      setUserName(docSnap.data().username);
+      setBio(docSnap.data().bio);
+      setFriend(docSnap.data().friend);
+      setImage(docSnap.data().image);
+      setLat(docSnap.data().lat);
+      setLong(docSnap.data().long);
+      setLink(docSnap.data().link);
     } else {
       // doc.data() will be undefined in this case
       console.log("No such document!");
@@ -68,6 +82,10 @@ export default function Editprofile() {
     );
     e.preventDefault();
   };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <div className="flex">

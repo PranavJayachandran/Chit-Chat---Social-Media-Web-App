@@ -38,6 +38,9 @@ export default function Profile() {
   useEffect(() => {
     getData();
   }, [id]);
+  useEffect(() => {
+    getData();
+  }, []);
 
   useEffect(() => {
     if (loaded === 1) console.log(userData);
@@ -56,7 +59,7 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-2 mt-10 ">
+        <div className="flex flex-col gap-2 mt-4 ">
           <div className="font-semibold text-left">Pranav Jayachandran</div>
           <div>{userData.bio}</div>
           <div>

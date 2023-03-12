@@ -45,82 +45,77 @@ export default function Navbar() {
     });
   };
   return (
-    <div>
-      <div className="border-r h-screen text-white pl-10 items-start flex flex-col justify-between py-10">
-        <div className="text-2xl text-left ">Name</div>
-        <div className="text-left flex flex-col gap-5">
-          <div className="flex gap-4 items-center">
-            <div>
-              <AiFillHome className="h-7 w-7" />
-            </div>
-            <div>Home</div>
+    <div className="border-r h-screen  text-white pl-10 items-start flex flex-col justify-between py-10">
+      <div className="text-2xl text-left ">Name</div>
+      <div className="text-left flex flex-col gap-5">
+        <div className="flex gap-4 items-center">
+          <div>
+            <AiFillHome className="h-7 w-7" />
           </div>
-          <div className="flex gap-4 items-center">
+          <div>Home</div>
+        </div>
+        <div className="flex gap-4 items-center">
+          <div
+            className={`flex gap-4 cursor-pointer ${
+              !isOpen ? "opacity-100" : "opacity-0"
+            }`}
+            onClick={() => {
+              setIsOpen((isOpen) => !isOpen);
+              console.log(isOpen);
+            }}
+          >
+            <AiOutlineSearch className={`h-7 w-7 `} />
+            <div>Search</div>
+          </div>
+          <motion.nav animate={isOpen ? "open" : "closed"} variants={variants}>
             <div
-              className={`flex gap-4 ${!isOpen ? "opacity-100" : "opacity-0"}`}
+              className={`flex items-center gap-2 opacity-0  ${
+                isOpen ? "opacity-100" : ""
+              }`}
             >
-              <AiOutlineSearch
-                className={`h-7 w-7 cursor-pointer`}
+              <AiFillCaretLeft
+                className="cursor-pointer"
                 onClick={() => {
                   setIsOpen((isOpen) => !isOpen);
                   console.log(isOpen);
                 }}
               />
-              <div>Search</div>
-            </div>
-            <motion.nav
-              animate={isOpen ? "open" : "closed"}
-              variants={variants}
-            >
-              <div
-                className={`flex items-center gap-2 opacity-0  ${
-                  isOpen ? "opacity-100" : ""
-                }`}
-              >
-                <AiFillCaretLeft
-                  className="cursor-pointer"
-                  onClick={() => {
-                    setIsOpen((isOpen) => !isOpen);
-                    console.log(isOpen);
-                  }}
-                />
 
-                <div className="rounded-xl text-black bg-white flex items-center">
-                  <input
-                    className="rounded-l-xl py-1 px-2"
-                    onChange={(e) => {
-                      setSearchQuery(e.target.value);
-                    }}
-                    value={searchquery}
-                  />
-                  <AiOutlineSearch
-                    className="h-5 w-5 cursor-pointer hover:text-blue-500"
-                    onClick={search}
-                  />
-                </div>
+              <div className="rounded-xl text-black bg-white flex items-center">
+                <input
+                  className="rounded-l-xl py-1 px-2"
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                  }}
+                  value={searchquery}
+                />
+                <AiOutlineSearch
+                  className="h-5 w-5 cursor-pointer hover:text-blue-500"
+                  onClick={search}
+                />
               </div>
-            </motion.nav>
-          </div>
-          <div className="flex gap-4 items-center">
-            <div>
-              <MdNotifications className="h-7 w-7" />
             </div>
-            <div>Notifications</div>
-          </div>
-          <div className="flex gap-4 items-center">
-            <div>
-              <FaUserFriends className="h-7 w-7" />
-            </div>
-            <div>Meet People</div>
-          </div>
+          </motion.nav>
         </div>
-        <div
-          onClick={signout}
-          className=" flex gap-4 items-end hover:bg-[#121212] px-4 py-2 transition cursor-pointer"
-        >
-          <BiLogOut className="h-6 w-6 text-red-500" />
-          <div className="text-xl text-red-500">Logout</div>
+        <div className="flex gap-4 items-center">
+          <div>
+            <MdNotifications className="h-7 w-7" />
+          </div>
+          <div>Notifications</div>
         </div>
+        <div className="flex gap-4 items-center">
+          <div>
+            <FaUserFriends className="h-7 w-7" />
+          </div>
+          <div>Meet People</div>
+        </div>
+      </div>
+      <div
+        onClick={signout}
+        className=" flex gap-4 items-end hover:bg-[#121212] px-4 py-2 transition cursor-pointer"
+      >
+        <BiLogOut className="h-6 w-6 text-red-500" />
+        <div className="text-xl text-red-500">Logout</div>
       </div>
     </div>
   );

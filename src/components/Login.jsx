@@ -27,7 +27,7 @@ export default function Login() {
         const user = result.user;
         dispatch(addEmail(user.email));
         localStorage.setItem("Email", user.email);
-        navigate("/");
+        navigate(`/${user.email}`);
       })
       .catch((error) => {
         console.log(error);

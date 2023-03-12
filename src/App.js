@@ -9,6 +9,7 @@ import Home from './components/Home';
 import Editprofile from './components/Editprofile';
 import { useState } from 'react';
 import AddDetails from './components/AddDetails';
+import MeetPeople from './components/MeetPeople';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/editprofile" element={<Editprofile />} />
           <Route path="/adddetails" element={<AddDetails />} />
+          <Route path="/meetpeople" element={<MeetPeople />} />
         </Routes></BrowserRouter>
     </div>
   );

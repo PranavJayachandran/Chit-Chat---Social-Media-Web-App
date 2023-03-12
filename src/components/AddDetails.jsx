@@ -9,7 +9,7 @@ import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 
 export default function Editprofile() {
   // const email = useSelector(selectEmail);
-  const email = localStorage.get("Email");
+  const email = localStorage.getItem("Email");
   const navigate = useNavigate();
   const [userName, setUserName] = useState();
   const [bio, setBio] = useState();

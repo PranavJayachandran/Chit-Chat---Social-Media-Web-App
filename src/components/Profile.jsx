@@ -14,6 +14,7 @@ export default function Profile() {
     lat: "",
     long: "",
     link: "",
+    friend: [],
   });
   const getData = async () => {
     const docSnap = await getDoc(docRef);
@@ -27,6 +28,7 @@ export default function Profile() {
         lat: docSnap.data()["lat"],
         long: docSnap.data()["long"],
         link: docSnap.data()["link"],
+        friend: docSnap.data()["friend"],
       };
       console.log(docSnap.data());
       setUserData(docSnap.data());

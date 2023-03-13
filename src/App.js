@@ -10,6 +10,7 @@ import Editprofile from './components/Editprofile';
 import { useState } from 'react';
 import AddDetails from './components/AddDetails';
 import MeetPeople from './components/MeetPeople';
+import FriendsPage from './components/FriendsPage';
 
 function App() {
 
@@ -17,13 +18,14 @@ function App() {
     <div className="App bg-black text-white">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+          {/* <Route path="/" element={<Home />} /> */}
           <Route path="/:id" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/editprofile" element={<Editprofile />} />
           <Route path="/adddetails" element={<AddDetails />} />
           <Route path="/meetpeople" element={<MeetPeople />} />
+          <Route path="/friends/:id" element={<FriendsPage />} />
         </Routes></BrowserRouter>
     </div>
   );

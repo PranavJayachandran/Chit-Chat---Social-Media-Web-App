@@ -6,55 +6,62 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectEmail } from "../redux/features/counter/counterSlice";
 import { useNavigate } from "react-router-dom";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { getData, addData } from "../utils/convertemailtoid";
 
 export default function Editprofile() {
   // const email = useSelector(selectEmail);
   const email = localStorage.getItem("Email");
+  const id = localStorage.getItem("id");
   const navigate = useNavigate();
-  const [userName, setUserName] = useState();
-  const [bio, setBio] = useState();
-  const [link, setLink] = useState();
-  const [image, setImage] = useState();
-  const [lat, setLat] = useState();
-  const [long, setLong] = useState();
-  const [friend, setFriend] = useState([]);
+  const [userData, setUserData] = useState({
+    username: "",
+    bio: "",
+    image: "",
+    lat: "",
+    long: "",
+    link: "",
+    email: "",
+    friend: [],
+    req: [],
+  });
+  const req = [];
 
   const [progresspercent, setProgresspercent] = useState(0);
 
-  const addData = async () => {
-    console.log(email);
-    await setDoc(doc(db, "social", email), {
-      username: userName,
-      bio: bio,
-      link: link,
-      email: email,
-      image: image,
-      lat: lat,
-      long: long,
-      friend: friend,
+  const postData = async () => {
+    await addData(localStorage.getItem("id"), {
+      username: userData.username,
+      bio: userData.bio,
+      link: userData.link,
+      email: userData.email,
+      image: userData.image,
+      lat: userData.lat,
+      long: userData.long,
+      friend: userData.friend,
+      req: userData.req,
     });
-    getData();
-    navigate(`/${localStorage.getItem("Email")}`);
+    navigate(`/${localStorage.getItem("id")}`);
   };
 
-  const getData = async () => {
-    const docRef = doc(db, "social", email);
-    const docSnap = await getDoc(docRef);
+  // const getData = async () => {
+  //   const docRef = doc(db, "social", id);
+  //   const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-      setUserName(docSnap.data().username);
-      setBio(docSnap.data().bio);
-      setFriend(docSnap.data().friend);
-      setImage(docSnap.data().image);
-      setLat(docSnap.data().lat);
-      setLong(docSnap.data().long);
-      setLink(docSnap.data().link);
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
-  };
+  //   if (docSnap.exists()) {
+  //     console.log("Document data:", docSnap.data());
+  //     setUserName(docSnap.data().username);
+  //     setBio(docSnap.data().bio);
+  //     setFriend(docSnap.data().friend);
+  //     setImage(docSnap.data().image);
+  //     setLat(docSnap.data().lat);
+  //     setLong(docSnap.data().long);
+  //     setLink(docSnap.data().link);
+  //     req = docSnap.data().req;
+  //   } else {
+  //     // doc.data() will be undefined in this case
+  //     console.log("No such document!");
+  //   }
+  // };
   const handleChange = (e) => {
     console.log("ASdsad");
     const file = e.target.files[0];
@@ -76,15 +83,19 @@ export default function Editprofile() {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setImage(downloadURL);
+          setUserData((prev) => ({ ...prev, image: downloadURL }));
         });
       }
     );
     e.preventDefault();
   };
 
+  const fetchData = async () => {
+    setUserData(await getData(localStorage.getItem("id")));
+  };
+
   useEffect(() => {
-    getData();
+    fetchData();
   }, []);
 
   return (
@@ -96,7 +107,7 @@ export default function Editprofile() {
         <div className="text-3xl">Edit Profile</div>
         <div className="flex flex-col justify-center items-center gap-4">
           <div className="border h-32 w-32 flex flex-col justify-center items-center overflow-hidden rounded-full">
-            <img src={image} className=" h-36 w-36" />
+            <img src={userData.image} className=" h-36 w-36" />
           </div>
           <div className=" -mt-7 rounded-xl flex justify-center items-center h-5 w-5 bg-blue-600">
             <label className="cursor-pointer">
@@ -108,9 +119,9 @@ export default function Editprofile() {
             <input
               className="w-96 bg-black border rounded-lg p-2"
               onChange={(e) => {
-                setUserName(e.target.value);
+                setUserData((prev) => ({ ...prev, username: e.target.value }));
               }}
-              value={userName}
+              value={userData.username}
             />
           </div>
           <div className="flex gap-4 ml-[53px] items-center">
@@ -118,9 +129,9 @@ export default function Editprofile() {
             <input
               className="w-96 bg-black border rounded-lg p-2"
               onChange={(e) => {
-                setBio(e.target.value);
+                setUserData((prev) => ({ ...prev, bio: e.target.value }));
               }}
-              value={bio}
+              value={userData.bio}
             />
           </div>
           <div className="flex gap-4 ml-[46px] items-center">
@@ -128,12 +139,12 @@ export default function Editprofile() {
             <input
               className="w-96 bg-black border rounded-lg p-2"
               onChange={(e) => {
-                setLink(e.target.value);
+                setUserData((prev) => ({ ...prev, link: e.target.value }));
               }}
-              value={link}
+              value={userData.link}
             />
           </div>
-          <div className="flex justify-center" onClick={addData}>
+          <div className="flex justify-center" onClick={postData}>
             <div className="bg-gray-100 text-black px-4 py-2 rounded-xl hover:bg-black hover:text-gray-100 transition cursor-pointer border">
               Change
             </div>

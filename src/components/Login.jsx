@@ -6,12 +6,14 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import app from "../firebase/firestore";
+import app, { db } from "../firebase/firestore";
 import google from "../assets/google.jpeg";
 import bg from "../assets/bg.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addEmail } from "../redux/features/counter/counterSlice";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import toid, { getData } from "../utils/convertemailtoid";
 
 const auth = getAuth(app);
 
@@ -23,11 +25,28 @@ export default function Login() {
 
   const hadleGoogleSignIn = () => {
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then(async (result) => {
         const user = result.user;
-        dispatch(addEmail(user.email));
-        localStorage.setItem("Email", user.email);
-        navigate(`/${user.email}`);
+        // const socialRef = collection(db, "social");
+        // const q = query(socialRef, where("email", "==", user.email));
+        // const querySnapshot = await getDocs(q);
+        // querySnapshot.forEach((doc) => {
+
+        // localStorage.setItem("id", doc.id);
+        // localStorage.setItem("Email", doc.data().email);
+        // navigate(`/${doc.id}`);
+        // });
+        let id = await toid(user.email);
+        let userData = await getData(id);
+        console.log(userData);
+        //HERRE Look into it
+        // if (userData.username === "no such user") console.log("error");
+        // else {
+        //   localStorage.setItem("id", id);
+        //   localStorage.setItem("Email", userData.email);
+        //   navigate(`/${id}`);
+        // }
+        // localStorage.setItem("id", q);
       })
       .catch((error) => {
         console.log(error);

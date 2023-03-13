@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, addDoc, collection } from "firebase/firestore";
 import { db, storage } from "../firebase/firestore";
 import { useSelector, useDispatch } from "react-redux";
 import { selectEmail } from "../redux/features/counter/counterSlice";
 import { useNavigate } from "react-router-dom";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { getImageURL } from "../utils/convertemailtoid";
 
 export default function Editprofile() {
   // const email = useSelector(selectEmail);
-  const email = localStorage.getItem("Email");
+  const id = localStorage.getItem("id");
   const navigate = useNavigate();
   const [userName, setUserName] = useState();
   const [bio, setBio] = useState();
@@ -27,57 +28,44 @@ export default function Editprofile() {
   }, []);
 
   const addData = async () => {
-    console.log(email);
-    await setDoc(doc(db, "social", email), {
+    await addDoc(collection(db, "social"), {
       username: userName,
       bio: bio,
       link: link,
-      email: email,
+      email: localStorage.getItem("Email"),
       image: image,
       lat: lat,
       long: long,
       friend: [],
+      req: [],
     });
-    getData();
-    navigate("/");
-  };
 
-  const getData = async () => {
-    const docRef = doc(db, "social", email);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
+    // navigate("/");
   };
-  const handleChange = (e) => {
-    console.log("ASdsad");
+  const handleChange = async (e) => {
     const file = e.target.files[0];
-    console.log(file, "Sd");
     if (!file) return;
-    const storageRef = ref(storage, `files/${file.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
+    // const storageRef = ref(storage, `files/${file.name}`);
+    // const uploadTask = uploadBytesResumable(storageRef, file);
 
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        setProgresspercent(progress);
-      },
-      (error) => {
-        alert(error);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setImage(downloadURL);
-        });
-      }
-    );
+    // uploadTask.on(
+    //   "state_changed",
+    //   (snapshot) => {
+    //     const progress = Math.round(
+    //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+    //     );
+    //     setProgresspercent(progress);
+    //   },
+    //   (error) => {
+    //     alert(error);
+    //   },
+    //   () => {
+    //     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+    //       setImage(downloadURL);
+    //     });
+    //   }
+    // );
+    setImage(await getImageURL(file));
     e.preventDefault();
   };
 

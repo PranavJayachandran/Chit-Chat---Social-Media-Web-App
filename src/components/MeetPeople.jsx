@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import toid, { getData, addData } from "../utils/convertemailtoid";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { sortTheAccounts } from "../utils/recommendation";
 
 function Friend({ data, friendOf }) {
   const xemail = localStorage.getItem("Email");
@@ -74,20 +75,21 @@ function Friend({ data, friendOf }) {
   useEffect(() => {
     getData2();
   }, []);
+
   return (
     <div>
       {data ? (
-        <div className="flex flex-col items-center justify-center  gap-2 border px-8 py-4 rounded-xl">
+        <div className="flex w-40 flex-col items-center justify-center  gap-2 border px-8 py-4 rounded-xl">
           {id !== 0 ? (
             <div className="gap-2 flex flex-col justify-center items-center">
               <Link to={`/${id}`}>
-                <div className="h-20 w-20 rounded-full flex justify-center items-center overflow-hidden">
+                <div className="h-14 w-14 sm:h-20 sm:w-20 rounded-full flex justify-center items-center overflow-hidden">
                   <img src={data.image} className="h-20 w-20" />
                 </div>
-                <div>{data.username}</div>
+                <div className="sm:text-md text-sm">{data.username}</div>
               </Link>
               <div
-                className="bg-blue-600 rounded-xl w-24 py-2 px-2 hover:text-blue-600 hover:bg-white transition cursor-pointer"
+                className="sm:text-md text-xs bg-blue-600 rounded-xl sm:w-24 py-2 px-2 hover:text-blue-600 hover:bg-white transition cursor-pointer"
                 onClick={addFriend}
               >
                 Add Friend
@@ -130,6 +132,7 @@ function Friends({ title, data, friendOf }) {
   const [friend, setFriend] = useState([]);
 
   const [nonfriends, setNonFriends] = useState([]);
+  const [ordered, setOrdered] = useState([]);
 
   const tempdata = [
     {
@@ -234,10 +237,26 @@ function Friends({ title, data, friendOf }) {
     });
   }, [data]);
 
+  async function getSorted() {
+    setOrdered(
+      await sortTheAccounts(
+        await toid(localStorage.getItem("Email")),
+        nonfriends
+      )
+    );
+  }
+  useEffect(() => {
+    getSorted();
+  }, [nonfriends]);
+
+  useEffect(() => {
+    console.log("ORDERED", ordered);
+  }, [ordered]);
+
   return (
-    <div className="flex flex-col gap-4 pl-20">
-      <div className="text-xl text-left">{title}</div>
-      <div className="sm:w-[900px] -ml-10">
+    <div className="flex flex-col justify-center items-center  gap-4 pl-20">
+      <div className="sm:text-xl text-left">{title}</div>
+      <div className="sm:w-[900px] w-60 ">
         {data.length === 0 ? (
           <Carousel cols={5} rows={1} loop>
             {tempdata.map((item, index) => (
@@ -249,11 +268,17 @@ function Friends({ title, data, friendOf }) {
         ) : (
           <>
             <Carousel cols={5} rows={1} loop>
-              {nonfriends.map((item, index) => (
-                <Carousel.Item>
-                  <Friend data={item} friendOf={friendOf} />
-                </Carousel.Item>
-              ))}
+              {title === "Recommendation"
+                ? ordered.map((item, index) => (
+                    <Carousel.Item>
+                      <Friend data={item} friendOf={friendOf} />
+                    </Carousel.Item>
+                  ))
+                : nonfriends.map((item, index) => (
+                    <Carousel.Item>
+                      <Friend data={item} friendOf={friendOf} />
+                    </Carousel.Item>
+                  ))}
             </Carousel>
           </>
         )}
@@ -285,11 +310,11 @@ export default function MeetPeople() {
 
   return (
     <div className="bg-black flex justify-center ">
-      <div className="sm:w-[300px] ">
+      <div className="sm:w-[300px] mr-10 sm:mr-[0px] ">
         <Navbar />
       </div>
-      <div className="pb-20 overflow-y-scroll h-screen  w-full sm:w-10/12 pt-32 flex flex-col gap-10">
-        <Friends title="Mutual Friends" data={data} friendOf={friendOf} />
+      <div className="-ml-12 sm:ml-[0px] pb-20 overflow-y-scroll h-screen  w-full sm:w-10/12 pt-32 flex flex-col gap-10">
+        <Friends title="Recommendation" data={data} friendOf={friendOf} />
 
         <Friends title="Meet New People" data={data} friendOf={friendOf} />
       </div>

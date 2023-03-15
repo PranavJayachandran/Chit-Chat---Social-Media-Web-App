@@ -7,6 +7,7 @@ import toid, { addData, getData } from "../utils/convertemailtoid";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useMediaQuery } from "react-responsive";
+import Mutuals from "./Mutuals";
 
 export default function Profile() {
   const isDesktopOrLaptop = useMediaQuery({
@@ -28,6 +29,7 @@ export default function Profile() {
     friend: [],
     req: [],
   });
+  const [showMutualFriends, setShowMutualFriends] = useState(0);
   const [mutualFriends, setMutualFriends] = useState([]);
   const getDataofLoggedinUser = async () => {
     // const docSnap = await getDoc(docRef);
@@ -204,33 +206,59 @@ export default function Profile() {
             {mutualFriends.length == 0 || id == localStorage.getItem("id") ? (
               <></>
             ) : mutualFriends.length > 2 ? (
-              <div className="flex gap-2 text-md font-light">
-                <div>Friends with</div>
-                <div className="flex gap-1 text-md font-light">
-                  {mutualFriends.map((item, index) =>
-                    index < 2 ? (
-                      <div>
-                        {item.username}{" "}
-                        {index < mutualFriends.length - 1 ? "," : ""}
-                      </div>
-                    ) : (
-                      <></>
-                    )
-                  )}
+              <div>
+                <div
+                  className="cursor-pointer flex gap-2 text-md font-light hover:underline"
+                  onClick={() => {
+                    setShowMutualFriends(1);
+                  }}
+                >
+                  <div>Friends with</div>
+                  <div className="flex gap-1 text-md font-light">
+                    {mutualFriends.map((item, index) =>
+                      index < 2 ? (
+                        <div>
+                          {item.username}{" "}
+                          {index < mutualFriends.length - 1 ? "," : ""}
+                        </div>
+                      ) : (
+                        <></>
+                      )
+                    )}
 
-                  <div>and {mutualFriends.length - 2} more</div>
+                    <div>and {mutualFriends.length - 2} more</div>
+                  </div>
                 </div>
+                <Mutuals
+                  data={mutualFriends}
+                  show={showMutualFriends}
+                  changeshow={setShowMutualFriends}
+                />
               </div>
             ) : (
-              <div className="flex text-md font-light items-center gap-2">
-                <div>Friends with</div>
-                <div className="flex gap-1">
-                  {mutualFriends.map((item, index) => (
-                    <div>
-                      {item.username}{" "}
-                      {index < mutualFriends.length - 1 ? "and" : ""}
-                    </div>
-                  ))}
+              <div>
+                <div
+                  className="flex text-md font-light items-center gap-2 hover:underline cursor-pointer"
+                  onClick={() => {
+                    setShowMutualFriends(1);
+                  }}
+                >
+                  <div>Friends with</div>
+                  <div className="flex gap-1">
+                    {mutualFriends.map((item, index) => (
+                      <div>
+                        {item.username}{" "}
+                        {index < mutualFriends.length - 1 ? "and" : ""}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="-ml-16">
+                  <Mutuals
+                    data={mutualFriends}
+                    show={showMutualFriends}
+                    changeshow={setShowMutualFriends}
+                  />
                 </div>
               </div>
             )}

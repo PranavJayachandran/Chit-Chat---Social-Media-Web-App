@@ -7,6 +7,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 function Friend({ item }) {
   const { id } = useParams();
+  const [userId, setUserId] = useState(0);
   const [data, setData] = useState({
     username: "",
     bio: "",
@@ -19,6 +20,7 @@ function Friend({ item }) {
     req: [],
   });
   const getFriendData = async () => {
+    setUserId(await toid(item));
     setData(await getData(await toid(item)));
   };
   const unFriend = async () => {
@@ -34,10 +36,12 @@ function Friend({ item }) {
     <div className="flex ">
       <div className="flex w-[320px] sm:w-[400px] justify-between px-4 rounded-xl py-4 border border-gray-600 items-center justify-start">
         {data.image !== "" ? (
-          <div className="flex gap-4 items-center">
-            <img src={data.image} className="rounded-full h-20 w-20" />
-            <div>{data.username}</div>
-          </div>
+          <Link to={`/${userId}`}>
+            <div className="flex gap-4 items-center">
+              <img src={data.image} className="rounded-full h-20 w-20" />
+              <div>{data.username}</div>
+            </div>
+          </Link>
         ) : (
           <SkeletonTheme
             baseColor="grey"
@@ -123,11 +127,10 @@ export default function FriendsPage() {
       {loading === 0 ? (
         <div className="h-screen justify-center flex flex-col gap-10 w-full sm:w-10/12">
           {friends.length > 0 ? (
-            <div className="text-xl sm:text-2xl">Here are all your Friends</div>
-          ) : (
+            <div className="text-xl sm:text-2xl">Here are all the Friends</div>
+          ) : id === localStorage.getItem("id") ? (
             <div className="text-2xl flex flex-col gap-2">
               <div>Lets make new friends</div>
-
               <div className="flex justify-center">
                 <Link to="/meetpeople">
                   <div className="bg-blue-600 text-lg p-2 rounded-xl hover:bg-white hover:text-blue-600 cursor-pointer transition">
@@ -135,6 +138,10 @@ export default function FriendsPage() {
                   </div>
                 </Link>
               </div>
+            </div>
+          ) : (
+            <div className="text-xl flex flex-col gap-2">
+              <div>User has no friends</div>
             </div>
           )}
           <div className="flex items-center flex-col gap-4 ">
@@ -145,7 +152,7 @@ export default function FriendsPage() {
         </div>
       ) : (
         <div className="h-screen bg-black justify-center items-center flex flex-col gap-10 w-10/12">
-          <div className="text-2xl">Here are all your Friends</div>
+          <div className="text-2xl">Here are all the Friends</div>
           <div className="flex items-center flex-col gap-4 ">
             {tempdata.map((item, index) => (
               <Friend item={item} />

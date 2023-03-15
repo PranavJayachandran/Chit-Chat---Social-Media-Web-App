@@ -100,10 +100,10 @@ export default function Editprofile() {
 
   return (
     <div className="flex">
-      <div className="w-3/12">
+      <div className="sm:w-3/12 ml-4 sm:ml-[0px]">
         <Navbar />
       </div>
-      <div className="h-screen sm:w-10/12 text-white flex gap-10 flex-col justify-center items-center">
+      <div className="h-screen sm:w-10/12 w-full text-white flex gap-10 flex-col justify-center items-center">
         <div className="text-xl sm:text-3xl">Edit Profile</div>
         <div className="flex flex-col justify-center items-center gap-4">
           <div className="border h-24 w-24 sm:h-32 sm:w-32 flex flex-col justify-center items-center overflow-hidden rounded-full">

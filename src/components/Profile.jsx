@@ -142,6 +142,7 @@ export default function Profile() {
         data.friend.indexOf(item) !== -1 &&
         mutualFriends.indexOf(temp) === -1
       ) {
+        console.log(temp);
         setMutualFriends((prev) => [...prev, temp]);
       }
     });
@@ -200,22 +201,35 @@ export default function Profile() {
             ) : (
               <></>
             )}
-            {mutualFriends.length == 0 ? (
+            {mutualFriends.length == 0 || id == localStorage.getItem("id") ? (
               <></>
             ) : mutualFriends.length > 2 ? (
-              <div>
-                Friends with
-                {mutualFriends.map((item, index) =>
-                  index < 2 ? <div>{item}</div> : <></>
-                )}{" "}
-                and {mutualFriends.length - 2} more
+              <div className="flex gap-2 text-md font-light">
+                <div>Friends with</div>
+                <div className="flex gap-1 text-md font-light">
+                  {mutualFriends.map((item, index) =>
+                    index < 2 ? (
+                      <div>
+                        {item.username}{" "}
+                        {index < mutualFriends.length - 1 ? "," : ""}
+                      </div>
+                    ) : (
+                      <></>
+                    )
+                  )}
+
+                  <div>and {mutualFriends.length - 2} more</div>
+                </div>
               </div>
             ) : (
               <div className="flex text-md font-light items-center gap-2">
                 <div>Friends with</div>
-                <div>
-                  {mutualFriends.map((item) => (
-                    <div>{item.username}</div>
+                <div className="flex gap-1">
+                  {mutualFriends.map((item, index) => (
+                    <div>
+                      {item.username}{" "}
+                      {index < mutualFriends.length - 1 ? "and" : ""}
+                    </div>
                   ))}
                 </div>
               </div>

@@ -237,7 +237,7 @@ function Friends({ title, data, friendOf }) {
   return (
     <div className="flex flex-col gap-4 pl-20">
       <div className="text-xl text-left">{title}</div>
-      <div className="w-[900px] -ml-10">
+      <div className="sm:w-[900px] -ml-10">
         {data.length === 0 ? (
           <Carousel cols={5} rows={1} loop>
             {tempdata.map((item, index) => (
@@ -285,10 +285,10 @@ export default function MeetPeople() {
 
   return (
     <div className="bg-black flex justify-center ">
-      <div className="w-[300px] ">
+      <div className="sm:w-[300px] ">
         <Navbar />
       </div>
-      <div className="pb-20 overflow-y-scroll h-screen  w-10/12 pt-32 flex flex-col gap-10">
+      <div className="pb-20 overflow-y-scroll h-screen  w-full sm:w-10/12 pt-32 flex flex-col gap-10">
         <Friends title="Mutual Friends" data={data} friendOf={friendOf} />
 
         <Friends title="Meet New People" data={data} friendOf={friendOf} />

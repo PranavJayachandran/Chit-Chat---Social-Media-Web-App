@@ -121,7 +121,7 @@ export default function FriendsPage() {
         <Navbar />
       </div>
       {loading === 0 ? (
-        <div className="h-screen justify-center flex flex-col gap-10 sm:w-10/12">
+        <div className="h-screen justify-center flex flex-col gap-10 w-full sm:w-10/12">
           {friends.length > 0 ? (
             <div className="text-xl sm:text-2xl">Here are all your Friends</div>
           ) : (
@@ -144,7 +144,7 @@ export default function FriendsPage() {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col gap-10 w-10/12">
+        <div className="h-screen bg-black justify-center items-center flex flex-col gap-10 w-10/12">
           <div className="text-2xl">Here are all your Friends</div>
           <div className="flex items-center flex-col gap-4 ">
             {tempdata.map((item, index) => (

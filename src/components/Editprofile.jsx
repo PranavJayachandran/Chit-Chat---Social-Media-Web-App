@@ -100,14 +100,14 @@ export default function Editprofile() {
 
   return (
     <div className="flex">
-      <div className="w-2/12">
+      <div className="w-3/12">
         <Navbar />
       </div>
-      <div className="w-10/12 text-white flex gap-10 flex-col justify-center items-center">
-        <div className="text-3xl">Edit Profile</div>
+      <div className="h-screen sm:w-10/12 text-white flex gap-10 flex-col justify-center items-center">
+        <div className="text-xl sm:text-3xl">Edit Profile</div>
         <div className="flex flex-col justify-center items-center gap-4">
-          <div className="border h-32 w-32 flex flex-col justify-center items-center overflow-hidden rounded-full">
-            <img src={userData.image} className=" h-36 w-36" />
+          <div className="border h-24 w-24 sm:h-32 sm:w-32 flex flex-col justify-center items-center overflow-hidden rounded-full">
+            <img src={userData.image} className="h-24 w-24 sm:h-36 sm:w-36" />
           </div>
           <div className=" -mt-7 rounded-xl flex justify-center items-center h-5 w-5 bg-blue-600">
             <label className="cursor-pointer">
@@ -115,9 +115,9 @@ export default function Editprofile() {
             </label>
           </div>
           <div className="flex gap-4 items-center justify-center">
-            <div className="font-semibold text-lg">Username :</div>
+            <div className="font-semibold  sm:text-lg">Username :</div>
             <input
-              className="w-96 bg-black border rounded-lg p-2"
+              className="sm:w-96 bg-black border rounded-lg p-2"
               onChange={(e) => {
                 setUserData((prev) => ({ ...prev, username: e.target.value }));
               }}
@@ -125,9 +125,9 @@ export default function Editprofile() {
             />
           </div>
           <div className="flex gap-4 ml-[53px] items-center">
-            <div className="font-semibold text-lg">Bio :</div>
+            <div className="font-semibold sm:text-lg">Bio :</div>
             <input
-              className="w-96 bg-black border rounded-lg p-2"
+              className="sm:w-96 bg-black border rounded-lg p-2"
               onChange={(e) => {
                 setUserData((prev) => ({ ...prev, bio: e.target.value }));
               }}
@@ -135,9 +135,9 @@ export default function Editprofile() {
             />
           </div>
           <div className="flex gap-4 ml-[46px] items-center">
-            <div className="font-semibold text-lg">Link :</div>
+            <div className="font-semibold sm:text-lg">Link :</div>
             <input
-              className="w-96 bg-black border rounded-lg p-2"
+              className="sm:w-96 bg-black border rounded-lg p-2"
               onChange={(e) => {
                 setUserData((prev) => ({ ...prev, link: e.target.value }));
               }}

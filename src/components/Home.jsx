@@ -10,10 +10,10 @@ export default function Home() {
   }, []);
   return (
     <div className="App bg-black flex justify-center">
-      <div className="w-[300px]">
+      <div className="sm:w-[300px]">
         <Navbar />
       </div>
-      <div className=" w-10/12">
+      <div className=" sm:w-10/12">
         <Profile />
       </div>
     </div>

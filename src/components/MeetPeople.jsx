@@ -7,6 +7,8 @@ import { db } from "../firebase/firestore";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import toid, { getData, addData } from "../utils/convertemailtoid";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 function Friend({ data, friendOf }) {
   const xemail = localStorage.getItem("Email");
@@ -72,26 +74,46 @@ function Friend({ data, friendOf }) {
   useEffect(() => {
     getData2();
   }, []);
-
   return (
-    <div className="flex flex-col items-center  gap-2 border px-8 py-4 rounded-xl">
-      {id !== 0 ? (
-        <div>
-          <Link to={`/${id}`}>
-            <div className="h-20 w-20 rounded-full border flex justify-center items-center overflow-hidden">
-              <img src={data.image} className="h-20 w-20" />
+    <div>
+      {data ? (
+        <div className="flex flex-col items-center justify-center  gap-2 border px-8 py-4 rounded-xl">
+          {id !== 0 ? (
+            <div className="gap-2 flex flex-col justify-center items-center">
+              <Link to={`/${id}`}>
+                <div className="h-20 w-20 rounded-full flex justify-center items-center overflow-hidden">
+                  <img src={data.image} className="h-20 w-20" />
+                </div>
+                <div>{data.username}</div>
+              </Link>
+              <div
+                className="bg-blue-600 rounded-xl w-24 py-2 px-2 hover:text-blue-600 hover:bg-white transition cursor-pointer"
+                onClick={addFriend}
+              >
+                Add Friend
+              </div>
             </div>
-          </Link>
-          <div>{data.username}</div>
-          <div
-            className="bg-blue-600 rounded-xl w-24 py-2 px-2 hover:text-blue-600 hover:bg-white transition cursor-pointer"
-            onClick={addFriend}
-          >
-            Add Friend
-          </div>
+          ) : (
+            <SkeletonTheme
+              baseColor="grey"
+              highlightColor="grey"
+              borderRadius="0.5rem"
+              duration={4}
+            >
+              <div className="gap-2 flex flex-col justify-center items-center">
+                <div className="h-20 w-20 rounded-full flex justify-center items-center overflow-hidden">
+                  <Skeleton circle width="100px" height="100px" />
+                </div>
+                <div>
+                  <Skeleton width="100px" />
+                </div>
+                <Skeleton width="100px" />
+              </div>
+            </SkeletonTheme>
+          )}
         </div>
       ) : (
-        <></>
+        <div>asdjsadj</div>
       )}
     </div>
   );
@@ -108,6 +130,75 @@ function Friends({ title, data, friendOf }) {
   const [friend, setFriend] = useState([]);
 
   const [nonfriends, setNonFriends] = useState([]);
+
+  const tempdata = [
+    {
+      username: "",
+      bio: "",
+      image: "",
+      lat: "",
+      long: "",
+      link: "",
+      email: "",
+      friend: [],
+      req: [],
+    },
+    {
+      username: "",
+      bio: "",
+      image: "",
+      lat: "",
+      long: "",
+      link: "",
+      email: "",
+      friend: [],
+      req: [],
+    },
+    {
+      username: "",
+      bio: "",
+      image: "",
+      lat: "",
+      long: "",
+      link: "",
+      email: "",
+      friend: [],
+      req: [],
+    },
+    {
+      username: "",
+      bio: "",
+      image: "",
+      lat: "",
+      long: "",
+      link: "",
+      email: "",
+      friend: [],
+      req: [],
+    },
+    {
+      username: "",
+      bio: "",
+      image: "",
+      lat: "",
+      long: "",
+      link: "",
+      email: "",
+      friend: [],
+      req: [],
+    },
+    {
+      username: "",
+      bio: "",
+      image: "",
+      lat: "",
+      long: "",
+      link: "",
+      email: "",
+      friend: [],
+      req: [],
+    },
+  ];
 
   // const getData = async () => {
   //   const docRef = doc(db, "social", email);
@@ -147,13 +238,25 @@ function Friends({ title, data, friendOf }) {
     <div className="flex flex-col gap-4 pl-20">
       <div className="text-xl text-left">{title}</div>
       <div className="w-[900px] -ml-10">
-        <Carousel cols={5} rows={1} loop>
-          {nonfriends.map((item, index) => (
-            <Carousel.Item>
-              <Friend data={item} friendOf={friendOf} />
-            </Carousel.Item>
-          ))}
-        </Carousel>
+        {data.length === 0 ? (
+          <Carousel cols={5} rows={1} loop>
+            {tempdata.map((item, index) => (
+              <Carousel.Item>
+                <Friend data={item} friendOf={friendOf} />
+              </Carousel.Item>
+            ))}
+          </Carousel>
+        ) : (
+          <>
+            <Carousel cols={5} rows={1} loop>
+              {nonfriends.map((item, index) => (
+                <Carousel.Item>
+                  <Friend data={item} friendOf={friendOf} />
+                </Carousel.Item>
+              ))}
+            </Carousel>
+          </>
+        )}
       </div>
     </div>
   );
@@ -186,16 +289,9 @@ export default function MeetPeople() {
         <Navbar />
       </div>
       <div className="pb-20 overflow-y-scroll h-screen  w-10/12 pt-32 flex flex-col gap-10">
-        {data.length > 0 ? (
-          <Friends title="Mutual Friends" data={data} friendOf={friendOf} />
-        ) : (
-          <></>
-        )}
-        {data.length > 0 ? (
-          <Friends title="Meet New People" data={data} friendOf={friendOf} />
-        ) : (
-          <></>
-        )}
+        <Friends title="Mutual Friends" data={data} friendOf={friendOf} />
+
+        <Friends title="Meet New People" data={data} friendOf={friendOf} />
       </div>
     </div>
   );

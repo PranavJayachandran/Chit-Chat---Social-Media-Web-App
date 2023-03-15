@@ -4,8 +4,15 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/firestore";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import toid, { addData, getData } from "../utils/convertemailtoid";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { useMediaQuery } from "react-responsive";
 
 export default function Profile() {
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const { id } = useParams();
   const docRef = doc(db, "social", id);
   const [loaded, setLoaded] = useState(0);
@@ -21,6 +28,7 @@ export default function Profile() {
     friend: [],
     req: [],
   });
+  const [mutualFriends, setMutualFriends] = useState([]);
   const getDataofLoggedinUser = async () => {
     // const docSnap = await getDoc(docRef);
 
@@ -42,17 +50,26 @@ export default function Profile() {
     //   // doc.data() will be undefined in this case
     //   console.log("No such document!");
     // }
-    setUserData(await getData(id));
+    data = await getData(localStorage.getItem("id"));
   };
   useEffect(() => {
+    setLoaded(0);
     setIsFriend(0);
     friendChecker();
-    getDataofLoggedinUser();
+    getDataofUserBeingViewed();
+
+    setLoaded(1);
   }, [id]);
   useEffect(() => {
+    setLoaded(0);
     friendChecker();
-    getDataofLoggedinUser();
+    getDataofUserBeingViewed();
+    setLoaded(1);
   }, []);
+
+  useEffect(() => {
+    if (userData.username !== "") findMutualFriends();
+  }, [userData]);
 
   let data = [];
 
@@ -74,7 +91,8 @@ export default function Profile() {
     //   // doc.data() will be undefined in this case
     //   console.log("No such document!");
     // }
-    data = await getData(id);
+
+    setUserData(await getData(id));
   };
   const addDataintoUserBeingViewed = async () => {
     // setDoc(doc(db, "social", id), {
@@ -116,50 +134,125 @@ export default function Profile() {
     });
   };
 
+  const findMutualFriends = async () => {
+    await getDataofLoggedinUser();
+    userData.friend.forEach(async (item) => {
+      let temp = await getData(await toid(item));
+      if (
+        data.friend.indexOf(item) !== -1 &&
+        mutualFriends.indexOf(temp) === -1
+      ) {
+        setMutualFriends((prev) => [...prev, temp]);
+      }
+    });
+  };
+
+  useEffect(() => {
+    console.log(mutualFriends[0]);
+  }, [mutualFriends]);
   return (
-    <div className="h-screen flex justify-center">
-      <div className="border my-16 w-80 px-4 rounded-2xl border-gray-800 text-white flex flex-col justify-center items-center gap-4">
-        <div className="flex flex-col justify-center items-center gap-4">
-          <div className="flex justify-center items-center gap-6">
-            <div className="border h-32 w-32 flex flex-col justify-center items-center overflow-hidden rounded-full">
-              <img src={userData.image} className=" h-36 w-36" />
+    <div>
+      {userData.username !== "" ? (
+        <div className="h-screen flex justify-center">
+          <div className="border my-16 sm:w-80 px-4 rounded-2xl border-gray-800 text-white flex flex-col justify-center items-center gap-4">
+            <div className="flex flex-col justify-center items-center gap-4">
+              <div className="flex justify-center items-center gap-6">
+                <div className="sm:h-32 sm:w-32 h-24 w-24 flex flex-col justify-center items-center overflow-hidden rounded-full">
+                  <img
+                    src={userData.image}
+                    className=" sm:h-36 sm:w-36 h-28 w-28"
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <div className="sm:text-lg text-left">
+                    {userData.username}
+                  </div>
+                  <Link to={`/friends/${id}`}>
+                    <div className="text-left">
+                      {userData.friend.length} Friends
+                    </div>
+                  </Link>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-col gap-1">
-              <div className="text-lg text-left">{userData.username}</div>
-              <Link to={`/friends/${id}`}>
-                <div className="text-left">
-                  {userData.friend.length} Friends
+            <div className="flex flex-col gap-2 mt-4 ">
+              {/* <div className="font-semibold text-left">Pranav Jayachandran</div> */}
+              <div>{userData.bio}</div>
+              <div>
+                <a href={userData.link} target="_blanck">
+                  {userData.link}
+                </a>
+              </div>
+            </div>
+            {userData.email === localStorage.getItem("Email") ? (
+              <Link to="/editprofile">
+                <div className="bg-gray-100 text-black px-4 py-2 rounded-xl hover:bg-black hover:text-gray-100 transition cursor-pointer border">
+                  Edit Profile
                 </div>
               </Link>
-            </div>
+            ) : isFriend == 0 ? (
+              <div
+                className="bg-blue-700 px-4 py-1 rounded-xl hover:bg-white hover:text-blue-700 transition cursor-pointer"
+                onClick={addFriend}
+              >
+                Add Friend
+              </div>
+            ) : (
+              <></>
+            )}
+            {mutualFriends.length == 0 ? (
+              <></>
+            ) : mutualFriends.length > 2 ? (
+              <div>
+                Friends with
+                {mutualFriends.map((item, index) =>
+                  index < 2 ? <div>{item}</div> : <></>
+                )}{" "}
+                and {mutualFriends.length - 2} more
+              </div>
+            ) : (
+              <div className="flex text-md font-light items-center gap-2">
+                <div>Friends with</div>
+                <div>
+                  {mutualFriends.map((item) => (
+                    <div>{item.username}</div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
-        <div className="flex flex-col gap-2 mt-4 ">
-          {/* <div className="font-semibold text-left">Pranav Jayachandran</div> */}
-          <div>{userData.bio}</div>
-          <div>
-            <a href={userData.link} target="_blanck">
-              {userData.link}
-            </a>
-          </div>
-        </div>
-        {userData.email === localStorage.getItem("Email") ? (
-          <Link to="/editprofile">
-            <div className="bg-gray-100 text-black px-4 py-2 rounded-xl hover:bg-black hover:text-gray-100 transition cursor-pointer border">
-              Edit Profile
+      ) : (
+        <SkeletonTheme
+          baseColor="grey"
+          highlightColor="grey"
+          borderRadius="0.5rem"
+          duration={4}
+        >
+          <div className="h-screen flex justify-center">
+            <div className="border my-16 w-80 px-4 rounded-2xl border-gray-800 text-white flex flex-col justify-center items-center gap-4">
+              <div className="flex flex-col justify-center items-center gap-4">
+                <div className="flex justify-center items-center gap-6">
+                  <div className="h-32 w-32 flex flex-col justify-center items-center overflow-hidden rounded-full">
+                    <Skeleton circle height="200px" width="200px" />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <Skeleton width="100px" />
+                    <Skeleton />
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-2 mt-4 ">
+                {/* <div className="font-semibold text-left">Pranav Jayachandran</div> */}
+                <Skeleton width="100px" />
+                <Skeleton width="100px" />
+              </div>
+
+              <Skeleton width="100px" height="40px" />
             </div>
-          </Link>
-        ) : isFriend == 0 ? (
-          <div
-            className="bg-blue-700 px-4 py-1 rounded-xl hover:bg-white hover:text-blue-700 transition cursor-pointer"
-            onClick={addFriend}
-          >
-            Add Friend
           </div>
-        ) : (
-          <></>
-        )}
-      </div>
+        </SkeletonTheme>
+      )}
     </div>
   );
 }

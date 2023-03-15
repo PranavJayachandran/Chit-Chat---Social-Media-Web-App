@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { AiFillHome, AiOutlineSearch, AiFillCaretLeft } from "react-icons/ai";
+import {
+  AiOutlineMenu,
+  AiFillHome,
+  AiOutlineSearch,
+  AiFillCaretLeft,
+} from "react-icons/ai";
 import { MdNotifications } from "react-icons/md";
 import { FaUserFriends } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
@@ -13,6 +18,7 @@ import { motion } from "framer-motion";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import Notifications from "./Notifications";
 import { getNotificationCount } from "../utils/convertemailtoid";
+import { useMediaQuery } from "react-responsive";
 
 const variants = {
   open: { opacity: 1, x: "-45%" },
@@ -23,9 +29,19 @@ const variantsformnotificatoin = {
   open: { opacity: 1 },
   closed: { opacity: 0, scale: 0 },
 };
+const variantsforNav = {
+  open: { opacity: 1 },
+  closed: { opacity: 0, x: "-200%" },
+};
 
 const auth = getAuth(app);
+
 export default function Navbar() {
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+  const [inPhoneIsOpen, setInPhoneIsOpen] = useState(0);
   const [searchquery, setSearchQuery] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpennoti, setIsOpennoti] = useState(false);
@@ -72,107 +88,258 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    setInterval(getNotificationUpdate, 1000);
+    // setInterval(getNotificationUpdate, 1000);
+    if (isDesktopOrLaptop) setInPhoneIsOpen(1);
   }, []);
 
-  return (
-    <div className="h-screen  border-r overflow-x-hidden overflow-y-scroll text-white pl-10 items-start  py-10 ">
-      <div className="mt-10 text-2xl text-left  ">Name</div>
-      <div className="mt-20 text-left flex flex-col gap-5">
-        <Link to={`/${localStorage.getItem("id")}`}>
+  return isTabletOrMobile ? (
+    <div className={`mt-6  sm:mt-[0px]`}>
+      {isTabletOrMobile ? (
+        <div className="">
+          <AiOutlineMenu
+            onClick={() => {
+              console.log("VCLie", inPhoneIsOpen);
+              setInPhoneIsOpen(!inPhoneIsOpen);
+            }}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
+      <motion.nav
+        animate={inPhoneIsOpen ? "open" : "closed"}
+        variants={variantsforNav}
+      >
+        {inPhoneIsOpen ? (
+          <div
+            className={`${
+              isTabletOrMobile ? "absolute bg-black" : ""
+            } h-screen mr-10 sm:mr-[0px] border-r overflow-x-hidden overflow-y-scroll text-white pl-10 items-start  py-10 `}
+          >
+            <div className="mt-10 text-2xl text-left  ">Name</div>
+            <div className="mt-20 text-left flex flex-col gap-5">
+              <Link to={`/${localStorage.getItem("id")}`}>
+                <div className="flex gap-4 items-center">
+                  <div>
+                    <AiFillHome className="h-7 w-7" />
+                  </div>
+                  <div>Home</div>
+                </div>
+              </Link>
+              <div className="flex gap-4 items-center">
+                <div
+                  className={`flex gap-4 cursor-pointer ${
+                    !isOpen ? "opacity-100" : "opacity-0"
+                  }`}
+                  onClick={() => {
+                    setIsOpen((isOpen) => !isOpen);
+                    console.log(isOpen);
+                  }}
+                >
+                  <AiOutlineSearch className={`h-7 w-7 `} />
+                  <div>Search</div>
+                </div>
+                <motion.nav
+                  animate={isOpen ? "open" : "closed"}
+                  variants={variants}
+                >
+                  <div
+                    className={`flex items-center gap-2 opacity-0  ${
+                      isOpen ? "opacity-100" : ""
+                    }`}
+                  >
+                    <AiFillCaretLeft
+                      className="cursor-pointer"
+                      onClick={() => {
+                        setIsOpen((isOpen) => !isOpen);
+                        console.log(isOpen);
+                      }}
+                    />
+
+                    <div className="rounded-xl text-black bg-white flex items-center">
+                      <input
+                        className="rounded-l-xl py-1 px-2"
+                        onChange={(e) => {
+                          setSearchQuery(e.target.value);
+                        }}
+                        value={searchquery}
+                      />
+                      <AiOutlineSearch
+                        className="h-5 w-5 cursor-pointer hover:text-blue-500"
+                        onClick={search}
+                      />
+                    </div>
+                  </div>
+                </motion.nav>
+              </div>
+              <div className="flex gap-4 items-center">
+                <div>
+                  <MdNotifications className="h-7 w-7" />
+                </div>
+                <div
+                  className="flex items-center cursor-pointer gap-2"
+                  onClick={() => {
+                    setIsOpennoti(!isOpennoti);
+                  }}
+                >
+                  <div>Notifications</div>{" "}
+                  {noti > 0 ? (
+                    <div className="flex items-center justify-center bg-pink-500 p-3 h-4 w-4 rounded-full">
+                      {noti}
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              </div>
+              <motion.nav
+                animate={isOpennoti ? "open" : "closed"}
+                variants={variantsformnotificatoin}
+              >
+                <div className="">
+                  {isOpennoti ? <Notifications data={req} /> : <></>}
+                </div>
+              </motion.nav>
+              <Link to="/meetpeople">
+                <div className="-mt-4 flex gap-4 items-center">
+                  <div>
+                    <FaUserFriends className="h-7 w-7" />
+                  </div>
+                  <div>Meet People</div>
+                </div>
+              </Link>
+            </div>
+            <div
+              onClick={signout}
+              className="mt-20  flex gap-4 items-end hover:bg-[#121212] px-4 py-2 transition cursor-pointer"
+            >
+              <BiLogOut className="h-6 w-6 text-red-500" />
+              <div className="text-xl text-red-500">Logout</div>
+            </div>
+          </div>
+        ) : (
+          <></>
+        )}
+      </motion.nav>
+    </div>
+  ) : (
+    <div className={`mt-6  sm:mt-[0px]`}>
+      {isTabletOrMobile ? (
+        <div className="">
+          <AiOutlineMenu
+            onClick={() => {
+              console.log("VCLie", inPhoneIsOpen);
+              setInPhoneIsOpen(!inPhoneIsOpen);
+            }}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
+
+      <div
+        className={` h-screen mr-10 sm:mr-[0px] border-r overflow-x-hidden overflow-y-scroll text-white pl-10 items-start  py-10 `}
+      >
+        <div className="mt-10 text-2xl text-left  ">Name</div>
+        <div className="mt-20 text-left flex flex-col gap-5">
+          <Link to={`/${localStorage.getItem("id")}`}>
+            <div className="flex gap-4 items-center">
+              <div>
+                <AiFillHome className="h-7 w-7" />
+              </div>
+              <div>Home</div>
+            </div>
+          </Link>
+          <div className="flex gap-4 items-center">
+            <div
+              className={`flex gap-4 cursor-pointer ${
+                !isOpen ? "opacity-100" : "opacity-0"
+              }`}
+              onClick={() => {
+                setIsOpen((isOpen) => !isOpen);
+                console.log(isOpen);
+              }}
+            >
+              <AiOutlineSearch className={`h-7 w-7 `} />
+              <div>Search</div>
+            </div>
+            <motion.nav
+              animate={isOpen ? "open" : "closed"}
+              variants={variants}
+            >
+              <div
+                className={`flex items-center gap-2 opacity-0  ${
+                  isOpen ? "opacity-100" : ""
+                }`}
+              >
+                <AiFillCaretLeft
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setIsOpen((isOpen) => !isOpen);
+                    console.log(isOpen);
+                  }}
+                />
+
+                <div className="rounded-xl text-black bg-white flex items-center">
+                  <input
+                    className="rounded-l-xl py-1 px-2"
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                    }}
+                    value={searchquery}
+                  />
+                  <AiOutlineSearch
+                    className="h-5 w-5 cursor-pointer hover:text-blue-500"
+                    onClick={search}
+                  />
+                </div>
+              </div>
+            </motion.nav>
+          </div>
           <div className="flex gap-4 items-center">
             <div>
-              <AiFillHome className="h-7 w-7" />
+              <MdNotifications className="h-7 w-7" />
             </div>
-            <div>Home</div>
-          </div>
-        </Link>
-        <div className="flex gap-4 items-center">
-          <div
-            className={`flex gap-4 cursor-pointer ${
-              !isOpen ? "opacity-100" : "opacity-0"
-            }`}
-            onClick={() => {
-              setIsOpen((isOpen) => !isOpen);
-              console.log(isOpen);
-            }}
-          >
-            <AiOutlineSearch className={`h-7 w-7 `} />
-            <div>Search</div>
-          </div>
-          <motion.nav animate={isOpen ? "open" : "closed"} variants={variants}>
             <div
-              className={`flex items-center gap-2 opacity-0  ${
-                isOpen ? "opacity-100" : ""
-              }`}
+              className="flex items-center cursor-pointer gap-2"
+              onClick={() => {
+                setIsOpennoti(!isOpennoti);
+              }}
             >
-              <AiFillCaretLeft
-                className="cursor-pointer"
-                onClick={() => {
-                  setIsOpen((isOpen) => !isOpen);
-                  console.log(isOpen);
-                }}
-              />
-
-              <div className="rounded-xl text-black bg-white flex items-center">
-                <input
-                  className="rounded-l-xl py-1 px-2"
-                  onChange={(e) => {
-                    setSearchQuery(e.target.value);
-                  }}
-                  value={searchquery}
-                />
-                <AiOutlineSearch
-                  className="h-5 w-5 cursor-pointer hover:text-blue-500"
-                  onClick={search}
-                />
-              </div>
+              <div>Notifications</div>{" "}
+              {noti > 0 ? (
+                <div className="flex items-center justify-center bg-pink-500 p-3 h-4 w-4 rounded-full">
+                  {noti}
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
+          <motion.nav
+            animate={isOpennoti ? "open" : "closed"}
+            variants={variantsformnotificatoin}
+          >
+            <div className="">
+              {isOpennoti ? <Notifications data={req} /> : <></>}
             </div>
           </motion.nav>
-        </div>
-        <div className="flex gap-4 items-center">
-          <div>
-            <MdNotifications className="h-7 w-7" />
-          </div>
-          <div
-            className="flex items-center cursor-pointer gap-2"
-            onClick={() => {
-              setIsOpennoti(!isOpennoti);
-            }}
-          >
-            <div>Notifications</div>{" "}
-            {noti > 0 ? (
-              <div className="flex items-center justify-center bg-pink-500 p-3 h-4 w-4 rounded-full">
-                {noti}
+          <Link to="/meetpeople">
+            <div className="-mt-4 flex gap-4 items-center">
+              <div>
+                <FaUserFriends className="h-7 w-7" />
               </div>
-            ) : (
-              <></>
-            )}
-          </div>
-        </div>
-        <motion.nav
-          animate={isOpennoti ? "open" : "closed"}
-          variants={variantsformnotificatoin}
-        >
-          <div className="">
-            {isOpennoti ? <Notifications data={req} /> : <></>}
-          </div>
-        </motion.nav>
-        <Link to="/meetpeople">
-          <div className="-mt-4 flex gap-4 items-center">
-            <div>
-              <FaUserFriends className="h-7 w-7" />
+              <div>Meet People</div>
             </div>
-            <div>Meet People</div>
-          </div>
-        </Link>
-      </div>
-      <div
-        onClick={signout}
-        className="mt-20  flex gap-4 items-end hover:bg-[#121212] px-4 py-2 transition cursor-pointer"
-      >
-        <BiLogOut className="h-6 w-6 text-red-500" />
-        <div className="text-xl text-red-500">Logout</div>
+          </Link>
+        </div>
+        <div
+          onClick={signout}
+          className="mt-20  flex gap-4 items-end hover:bg-[#121212] px-4 py-2 transition cursor-pointer"
+        >
+          <BiLogOut className="h-6 w-6 text-red-500" />
+          <div className="text-xl text-red-500">Logout</div>
+        </div>
       </div>
     </div>
   );

@@ -268,17 +268,29 @@ function Friends({ title, data, friendOf }) {
         ) : (
           <>
             <Carousel cols={5} rows={1} loop>
-              {title === "Recommendation"
-                ? ordered.map((item, index) => (
+              {title === "Recommendation" ? (
+                ordered.length === 0 ? (
+                  <Carousel cols={5} rows={1} loop>
+                    {tempdata.map((item, index) => (
+                      <Carousel.Item>
+                        <Friend data={item} friendOf={friendOf} />
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
+                ) : (
+                  ordered.map((item, index) => (
                     <Carousel.Item>
                       <Friend data={item} friendOf={friendOf} />
                     </Carousel.Item>
                   ))
-                : nonfriends.map((item, index) => (
-                    <Carousel.Item>
-                      <Friend data={item} friendOf={friendOf} />
-                    </Carousel.Item>
-                  ))}
+                )
+              ) : (
+                nonfriends.map((item, index) => (
+                  <Carousel.Item>
+                    <Friend data={item} friendOf={friendOf} />
+                  </Carousel.Item>
+                ))
+              )}
             </Carousel>
           </>
         )}

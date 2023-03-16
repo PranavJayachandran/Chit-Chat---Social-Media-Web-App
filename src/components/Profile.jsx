@@ -145,7 +145,8 @@ export default function Profile() {
         mutualFriends.indexOf(temp) === -1
       ) {
         console.log(temp);
-        setMutualFriends((prev) => [...prev, temp]);
+        if (setMutualFriends.indexOf(temp) === -1)
+          setMutualFriends((prev) => [...prev, temp]);
       }
     });
   };
@@ -171,7 +172,7 @@ export default function Profile() {
                     {userData.username}
                   </div>
                   <Link to={`/friends/${id}`}>
-                    <div className="text-left">
+                    <div className="text-left hover:text-gray-400 hover:underline">
                       {userData.friend.length} Friends
                     </div>
                   </Link>

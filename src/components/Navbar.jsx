@@ -33,6 +33,10 @@ const variantsforNav = {
   open: { opacity: 1 },
   closed: { opacity: 0, x: "-200%" },
 };
+const variantsfornouseratsearch = {
+  open: { opacity: 1, x: "0%" },
+  closed: { opacity: 0, x: "100%" },
+};
 
 const auth = getAuth(app);
 
@@ -47,6 +51,7 @@ export default function Navbar() {
   const [isOpennoti, setIsOpennoti] = useState(false);
   const [noti, setNoti] = useState(0);
   const [req, setReq] = useState([]);
+  const [nouser, setNoUser] = useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const signout = () => {
@@ -66,10 +71,12 @@ export default function Navbar() {
     const q = query(socialRef, where("username", "==", searchquery));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
       navigate(`/${doc.id}`);
     });
+    setNoUser(1);
+    setTimeout(function () {
+      setNoUser(0);
+    }, 4000);
   };
 
   const getNotificationUpdate = async () => {
@@ -295,6 +302,27 @@ export default function Navbar() {
                 </div>
               </div>
             </motion.nav>
+
+            <div
+              className={`top-10 right-10 absolute ${
+                !nouser ? "opacity-100" : ""
+              }`}
+            >
+              <motion.nav
+                animate={nouser ? "open" : "closed"}
+                variants={variantsfornouseratsearch}
+              >
+                {nouser ? (
+                  <div className="flex text-lg justify-center items-center px-4 bg-red-600 py-4 rounded-xl">
+                    <div>
+                      <div>No such user</div>
+                    </div>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </motion.nav>
+            </div>
           </div>
           <div className="flex gap-4 items-center">
             <div>

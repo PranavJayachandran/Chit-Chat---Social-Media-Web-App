@@ -103,13 +103,13 @@ export default function Editprofile() {
       <div className="sm:w-3/12 ml-4 sm:ml-[0px]">
         <Navbar />
       </div>
-      <div className="h-screen sm:w-10/12 w-full text-white flex gap-10 flex-col justify-center items-center">
+      <div className="h-screen bg-[#e2eefe] text-[#58609b] sm:w-10/12 w-full flex gap-10 flex-col justify-center items-center">
         <div className="text-xl sm:text-3xl">Edit Profile</div>
         <div className="flex flex-col justify-center items-center gap-4">
           <div className="border h-24 w-24 sm:h-32 sm:w-32 flex flex-col justify-center items-center overflow-hidden rounded-full">
             <img src={userData.image} className="h-24 w-24 sm:h-36 sm:w-36" />
           </div>
-          <div className=" -mt-7 rounded-xl flex justify-center items-center h-5 w-5 bg-blue-600">
+          <div className="text-white bg-[#3634a9] -mt-7 rounded-xl flex justify-center items-center h-5 w-5 ">
             <label className="cursor-pointer">
               + <input type="file" id="file" onChange={handleChange} />
             </label>
@@ -117,7 +117,7 @@ export default function Editprofile() {
           <div className="flex gap-4 items-center justify-center">
             <div className="font-semibold  sm:text-lg">Username :</div>
             <input
-              className="sm:w-96 bg-black border rounded-lg p-2"
+              className="sm:w-96 bg-gray-100 border rounded-lg p-2"
               onChange={(e) => {
                 setUserData((prev) => ({ ...prev, username: e.target.value }));
               }}
@@ -127,7 +127,7 @@ export default function Editprofile() {
           <div className="flex gap-4 ml-[53px] items-center">
             <div className="font-semibold sm:text-lg">Bio :</div>
             <input
-              className="sm:w-96 bg-black border rounded-lg p-2"
+              className="sm:w-96 bg-gray-100 border rounded-lg p-2"
               onChange={(e) => {
                 setUserData((prev) => ({ ...prev, bio: e.target.value }));
               }}
@@ -137,7 +137,7 @@ export default function Editprofile() {
           <div className="flex gap-4 ml-[46px] items-center">
             <div className="font-semibold sm:text-lg">Link :</div>
             <input
-              className="sm:w-96 bg-black border rounded-lg p-2"
+              className="sm:w-96 bg-gray-100 border rounded-lg p-2"
               onChange={(e) => {
                 setUserData((prev) => ({ ...prev, link: e.target.value }));
               }}
@@ -145,7 +145,7 @@ export default function Editprofile() {
             />
           </div>
           <div className="flex justify-center" onClick={postData}>
-            <div className="bg-gray-100 text-black px-4 py-2 rounded-xl hover:bg-black hover:text-gray-100 transition cursor-pointer border">
+            <div className="bg-[#3634a9] text-white px-4 py-2 rounded-xl hover:bg-white hover:text-[#3634a9] transition cursor-pointer border">
               Change
             </div>
           </div>

@@ -58,7 +58,7 @@ function Friend({ item }) {
         <div className="flex">
           {id === localStorage.getItem("id") ? (
             <div
-              className="bg-gray-700 px-2 rounded-xl py-2 hover:bg-white hover:text-gray-700 transition cursor-pointer font-semibold"
+              className="bg-[#3634a9] text-white px-2 rounded-xl py-2 hover:bg-white hover:text-[#3634a9] transition cursor-pointer font-semibold"
               onClick={unFriend}
             >
               Unfriend
@@ -120,14 +120,16 @@ export default function FriendsPage() {
     getFriends();
   }, []);
   return (
-    <div className="App bg-black flex sm:justify-center sm:items-center">
+    <div className="bg-[#e2eefe] text-[#58609b] flex sm:justify-center sm:items-center">
       <div className="sm:w-[300px]">
         <Navbar />
       </div>
       {loading === 0 ? (
         <div className="h-screen justify-center flex flex-col gap-10 w-full sm:w-10/12">
           {friends.length > 0 ? (
-            <div className="text-xl sm:text-2xl">Here are all the Friends</div>
+            <div className="text-xl sm:text-3xl font-semibold">
+              Here are all the Friends
+            </div>
           ) : id === localStorage.getItem("id") ? (
             <div className="text-2xl flex flex-col gap-2">
               <div>Lets make new friends</div>
@@ -151,8 +153,8 @@ export default function FriendsPage() {
           </div>
         </div>
       ) : (
-        <div className="h-screen bg-black justify-center items-center flex flex-col gap-10 w-10/12">
-          <div className="text-2xl">Here are all the Friends</div>
+        <div className="h-screen  justify-center items-center flex flex-col gap-10 w-10/12">
+          <div className="text-3xl font-semibold">Here are all the Friends</div>
           <div className="flex items-center flex-col gap-4 ">
             {tempdata.map((item, index) => (
               <Friend item={item} />

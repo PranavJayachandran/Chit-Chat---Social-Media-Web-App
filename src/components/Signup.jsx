@@ -49,31 +49,36 @@ export default function Signup() {
   };
   return (
     <div>
-      <div className="h-screen bg-black flex justify-center items-center text-white">
-        <div className="py-4 gap-60 rounded-xl text-white flex justify-center items-center">
-          <div className="w-4/12">
+      <div className="h-screen bg-black flex w-full text-white">
+        <div className=" text-white w-full flex bg-white">
+          <div className="w-6/12 bg-[#3A54AA] flex justify-center items-center">
             <img src={bg} className="blackwhite h-96 w-96" />
           </div>
-          <div className="w/8/12  flex flex-col justify-center items-center  gap-10">
-            <div className="text-3xl font-semibold">Chat Chit</div>
-            <div className="text-xl ">
-              Keep in touch with your friends and meet new ones
+          <div className="w-6/12 text-black gap-10 flex flex-col justify-center items-center ">
+            <div className="">
+              <div className="text-3xl font-semibold">Chat Chit</div>
+              <div className="text-lg font-light ">
+                Keep in touch with your friends and meet new ones
+              </div>
             </div>
+
             <div className="flex justify-center">
               <div
-                className="flex gap-4 bg-gray-100 text-black px-4 py-2 rounded-xl hover:bg-black hover:text-gray-100 transition cursor-pointer border"
+                className="flex gap-4 bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-white hover:text-blue-500 hover:border-blue-500 transition cursor-pointer border"
                 onClick={hadleGoogleSignIn}
               >
-                <img src={google} className="h-6 w-6" />
+                <img src={google} className="h-6 w-6 rounded-xl" />
                 <div>Sign Up using Google</div>
               </div>
             </div>
-            <Link to="/login">
-              <div className="flex gap-2 -mt-8 items-center justify-center hover:underline">
-                <div>Already have an account?</div>
-                <div>Log in</div>
-              </div>
-            </Link>
+            <div className="hover:underline">
+              <Link to="/login">
+                <div className="flex gap-2 -mt-8 items-center justify-center hover:underline">
+                  <div>Already have an account?</div>
+                  <div>Log in</div>
+                </div>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -88,9 +93,6 @@ export default function Signup() {
         >
           {firstLoad ? (
             <div className="flex text-lg justify-center items-center px-4 bg-green-600 py-4 rounded-xl">
-              <div>
-                <BsFillCaretLeftFill className="text-green-600 h-10 w-10 -ml-10" />
-              </div>
               <div>
                 <div>The email aready has an account</div>
                 <div>Log in!!</div>

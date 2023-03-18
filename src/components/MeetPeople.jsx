@@ -77,19 +77,22 @@ function Friend({ data, friendOf }) {
   }, []);
 
   return (
-    <div>
+    <div className="">
       {data ? (
-        <div className="flex w-40 flex-col items-center justify-center  gap-2 border px-8 py-4 rounded-xl">
+        <div className="bg-[#f6f9ff] flex w-40 flex-col items-center justify-center  gap-2 border px-8 py-4 rounded-xl">
           {id !== 0 ? (
             <div className="gap-2 flex flex-col justify-center items-center">
               <Link to={`/${id}`}>
                 <div className="h-14 w-14 sm:h-20 sm:w-20 rounded-full flex justify-center items-center overflow-hidden">
                   <img src={data.image} className="h-20 w-20" />
                 </div>
-                <div className="sm:text-md text-sm">{data.username}</div>
+                <div className="sm:text-md text-sm text-black">
+                  {data.username.substr(0, 10)}
+                  {data.username.length > 10 ? "...." : ""}
+                </div>
               </Link>
               <div
-                className="sm:text-md text-xs bg-blue-600 rounded-xl sm:w-24 py-2 px-2 hover:text-blue-600 hover:bg-white transition cursor-pointer"
+                className="sm:text-md text-xs bg-[#3734a9] border border-[#3734a9] rounded-xl sm:w-24 py-2 px-2 hover:text-[#3734a9] hover:bg-[#f6f9ff] transition cursor-pointer"
                 onClick={addFriend}
               >
                 Add Friend
@@ -239,10 +242,7 @@ function Friends({ title, data, friendOf }) {
 
   async function getSorted() {
     setOrdered(
-      await sortTheAccounts(
-        await toid(localStorage.getItem("Email")),
-        nonfriends
-      )
+      await sortTheAccounts(await toid(localStorage.getItem("Email")))
     );
   }
   useEffect(() => {
@@ -254,9 +254,9 @@ function Friends({ title, data, friendOf }) {
   }, [ordered]);
 
   return (
-    <div className="flex flex-col justify-center items-center  gap-4 pl-20">
-      <div className="sm:text-xl text-left">{title}</div>
-      <div className="sm:w-[900px] w-60 ">
+    <div className="flex flex-col font-semibold  gap-4 pl-20">
+      <div className="sm:text-2xl text-left text-[#505695]">{title}</div>
+      <div className="sm:w-[900px] w-60 flex flex-col -ml-10">
         {data.length === 0 ? (
           <Carousel cols={5} rows={1} loop>
             {tempdata.map((item, index) => (
@@ -321,7 +321,7 @@ export default function MeetPeople() {
   }, []);
 
   return (
-    <div className="bg-black flex justify-center ">
+    <div className="bg-[#e2eefe] flex justify-center ">
       <div className="sm:w-[300px] mr-10 sm:mr-[0px] ">
         <Navbar />
       </div>

@@ -245,19 +245,21 @@ export default function Navbar() {
       )}
 
       <div
-        className={` h-screen mr-10 sm:mr-[0px] border-r overflow-x-hidden overflow-y-scroll text-white pl-10 items-start  py-10 `}
+        className={`bg-white h-screen mr-10 sm:mr-[0px] overflow-x-hidden overflow-y-scroll text-white pl-10 items-start  py-10 `}
       >
-        <div className="mt-10 text-2xl text-left  ">Name</div>
-        <div className="mt-20 text-left flex flex-col gap-5">
+        <div className="mt-10 -ml-4 text-5xl  font-bold text-left flex text-[#3430a0] ">
+          <div>CHIT CHAT</div>
+        </div>
+        <div className=" mt-20 text-left flex flex-col gap-5">
           <Link to={`/${localStorage.getItem("id")}`}>
-            <div className="flex gap-4 items-center">
+            <div className="text-[#b7b9bd] hover:text-[#3430a0] transition  flex gap-4 items-center">
               <div>
                 <AiFillHome className="h-7 w-7" />
               </div>
               <div>Home</div>
             </div>
           </Link>
-          <div className="flex gap-4 items-center">
+          <div className="text-[#b7b9bd] hover:text-[#3430a0] transition  flex gap-4 items-center">
             <div
               className={`flex gap-4 cursor-pointer ${
                 !isOpen ? "opacity-100" : "opacity-0"
@@ -287,16 +289,16 @@ export default function Navbar() {
                   }}
                 />
 
-                <div className="rounded-xl text-black bg-white flex items-center">
+                <div className="rounded-xl text-black flex items-center">
                   <input
-                    className="rounded-l-xl py-1 px-2"
+                    className="rounded-l-xl py-1 bg-gray-100 px-2"
                     onChange={(e) => {
                       setSearchQuery(e.target.value);
                     }}
                     value={searchquery}
                   />
                   <AiOutlineSearch
-                    className="h-5 w-5 cursor-pointer hover:text-blue-500"
+                    className="h-8 w-5 rounded-r-xl bg-gray-100 cursor-pointer hover:text-blue-500"
                     onClick={search}
                   />
                 </div>
@@ -324,7 +326,7 @@ export default function Navbar() {
               </motion.nav>
             </div>
           </div>
-          <div className="flex gap-4 items-center">
+          <div className="text-[#b7b9bd] hover:text-[#3430a0] transition flex gap-4 items-center">
             <div>
               <MdNotifications className="h-7 w-7" />
             </div>
@@ -353,7 +355,7 @@ export default function Navbar() {
             </div>
           </motion.nav>
           <Link to="/meetpeople">
-            <div className="-mt-4 flex gap-4 items-center">
+            <div className="text-[#b7b9bd] hover:text-[#3430a0] transition  -mt-4 flex gap-4 items-center">
               <div>
                 <FaUserFriends className="h-7 w-7" />
               </div>
@@ -363,10 +365,10 @@ export default function Navbar() {
         </div>
         <div
           onClick={signout}
-          className="mt-20  flex gap-4 items-end hover:bg-[#121212] px-4 py-2 transition cursor-pointer"
+          className="mt-20 mr-12 text-red-500 rounded-xl hover:text-white hover:bg-red-500 flex gap-4 items-end px-4 py-2 transition cursor-pointer"
         >
-          <BiLogOut className="h-6 w-6 text-red-500" />
-          <div className="text-xl text-red-500">Logout</div>
+          <BiLogOut className="h-6 w-6 " />
+          <div className="text-xl ">Logout</div>
         </div>
       </div>
     </div>

@@ -135,7 +135,7 @@ export default function FriendsPage() {
               <div>Lets make new friends</div>
               <div className="flex justify-center">
                 <Link to="/meetpeople">
-                  <div className="bg-blue-600 text-lg p-2 rounded-xl hover:bg-white hover:text-blue-600 cursor-pointer transition">
+                  <div className="bg-blue-600 text-lg p-2 text-white rounded-xl hover:bg-white hover:text-blue-600 cursor-pointer transition">
                     Meet People
                   </div>
                 </Link>

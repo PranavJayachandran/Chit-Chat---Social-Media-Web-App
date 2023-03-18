@@ -15,7 +15,7 @@ import FriendsPage from './components/FriendsPage';
 function App() {
 
   return (
-    <div className="App bg-black text-white">
+    <div className="App bg-[#e2eefe] text-white">
       <BrowserRouter>
         <Routes>
           {/* <Route path="/" element={<Home />} /> */}

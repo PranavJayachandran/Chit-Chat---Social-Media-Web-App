@@ -10,6 +10,7 @@ import toid, { getData, addData } from "../utils/convertemailtoid";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { sortTheAccounts } from "../utils/recommendation";
+import { useMediaQuery } from "react-responsive";
 
 function Friend({ data, friendOf }) {
   const xemail = localStorage.getItem("Email");
@@ -31,6 +32,7 @@ function Friend({ data, friendOf }) {
     //   setId(doc.id);
     // });
     setId(await toid(data.email));
+    console.log("changed");
     // const docRef = doc(db, "social", id);
     // const docSnap = await getDoc(docRef);
 
@@ -67,7 +69,6 @@ function Friend({ data, friendOf }) {
   };
   const addFriend = async () => {
     await getData2();
-    console.log(userData);
     if (userData.req.indexOf(xemail) === -1) userData.req.push(xemail);
     await addData2();
   };
@@ -75,6 +76,9 @@ function Friend({ data, friendOf }) {
   useEffect(() => {
     getData2();
   }, []);
+  useEffect(() => {
+    console.log(id, data);
+  }, [id]);
 
   return (
     <div className="">
@@ -107,7 +111,7 @@ function Friend({ data, friendOf }) {
             >
               <div className="gap-2 flex flex-col justify-center items-center">
                 <div className="h-20 w-20 rounded-full flex justify-center items-center overflow-hidden">
-                  <Skeleton circle width="100px" height="100px" />
+                  <Skeleton circle width="60px" height="60px" />
                 </div>
                 <div>
                   <Skeleton width="100px" />
@@ -118,13 +122,17 @@ function Friend({ data, friendOf }) {
           )}
         </div>
       ) : (
-        <div>asdjsadj</div>
+        <></>
       )}
     </div>
   );
 }
 
 function Friends({ title, data, friendOf }) {
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const email = localStorage.getItem("Email");
   const [userName, setUserName] = useState();
   const [bio, setBio] = useState();
@@ -228,7 +236,6 @@ function Friends({ title, data, friendOf }) {
   // };
 
   useEffect(() => {
-    console.log(data, friendOf);
     data.forEach((element) => {
       let p = 0;
       friendOf.forEach((item) => {
@@ -250,13 +257,15 @@ function Friends({ title, data, friendOf }) {
   }, [nonfriends]);
 
   useEffect(() => {
-    console.log("ORDERED", ordered);
+    console.log(ordered);
   }, [ordered]);
 
-  return (
+  useEffect(() => {}, [ordered]);
+
+  return !isTabletOrMobile ? (
     <div className="flex flex-col font-semibold  gap-4 pl-20">
       <div className="sm:text-2xl text-left text-[#505695]">{title}</div>
-      <div className="sm:w-[900px] w-60 flex flex-col -ml-10">
+      <div className="sm:w-[900px] w-80 flex flex-col -ml-10">
         {data.length === 0 ? (
           <Carousel cols={5} rows={1} loop>
             {tempdata.map((item, index) => (
@@ -270,7 +279,7 @@ function Friends({ title, data, friendOf }) {
             <Carousel cols={5} rows={1} loop>
               {title === "Recommendation" ? (
                 ordered.length === 0 ? (
-                  <Carousel cols={5} rows={1} loop>
+                  <Carousel cols={2} rows={1} loop>
                     {tempdata.map((item, index) => (
                       <Carousel.Item>
                         <Friend data={item} friendOf={friendOf} />
@@ -292,6 +301,43 @@ function Friends({ title, data, friendOf }) {
                 ))
               )}
             </Carousel>
+          </>
+        )}
+      </div>
+    </div>
+  ) : (
+    <div className="flex flex-col font-semibold  gap-4 pl-20">
+      <div className="sm:text-2xl text-left text-[#505695]">{title}</div>
+      <div className="sm:w-[900px] w-80 flex flex-col -ml-10">
+        {data.length === 0 ? (
+          <div className="w-full flex gap-4 overflow-x-scroll">
+            {tempdata.map((item, index) => (
+              <Friend data={item} friendOf={friendOf} />
+            ))}
+          </div>
+        ) : (
+          <>
+            {title === "Recommendation" ? (
+              ordered.length === 0 ? (
+                <div className="flex gap-4 overflow-x-scroll ">
+                  {ordered.map((item, index) => (
+                    <Friend data={item} friendOf={friendOf} />
+                  ))}
+                </div>
+              ) : (
+                <div className="flex gap-4 overflow-x-scroll">
+                  {ordered.map((item, index) => (
+                    <Friend data={item} friendOf={friendOf} />
+                  ))}
+                </div>
+              )
+            ) : (
+              <div className="flex gap-4 overflow-x-scroll">
+                {nonfriends.map((item, index) => (
+                  <Friend data={item} friendOf={friendOf} />
+                ))}
+              </div>
+            )}
           </>
         )}
       </div>

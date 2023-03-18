@@ -34,7 +34,6 @@ export async function sortTheAccounts(id) {
     let req = [];
 
     let Alldata = await getAllData();
-    console.log(Alldata)
     for (const data of Alldata) {
         if (friends.indexOf(data) === -1)
             friends.push(data)
@@ -49,10 +48,16 @@ export async function sortTheAccounts(id) {
         if (item.email === userData.email)
             p = 1;
 
-        if (!p)
+        for (const temp of req) {
+            if (temp.email === item.email) {
+                p = 1;
+                break;
+            }
+        }
+        if (!p) {
             req.push(item);
+        }
     }
-    console.log("FR", friends, req)
     return req;
 }
 
@@ -65,7 +70,6 @@ async function getFriends(userData) {
             temp.push(await getData(await toid(element)));
         }
     }
-    console.log(await getAllData())
 
     return temp
 }

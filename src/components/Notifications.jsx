@@ -52,7 +52,6 @@ function Notification(props) {
 
     //adding friend for the account the sent the request
     id = await toid(props.item);
-    console.log(id);
     // const docRef2 = doc(db, "social", id);
     // const docSnap2 = await getDoc(docRef2);
 

@@ -67,13 +67,14 @@ export default function Navbar() {
   };
   const search = async () => {
     const socialRef = collection(db, "social");
-    console.log(searchquery);
     const q = query(socialRef, where("username", "==", searchquery));
     const querySnapshot = await getDocs(q);
+    let found = 0;
     querySnapshot.forEach((doc) => {
       navigate(`/${doc.id}`);
+      found = 1;
     });
-    setNoUser(1);
+    if (found === 0) setNoUser(1);
     setTimeout(function () {
       setNoUser(0);
     }, 4000);
@@ -95,17 +96,16 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    // setInterval(getNotificationUpdate, 1000);
+    setInterval(getNotificationUpdate, 1000);
     if (isDesktopOrLaptop) setInPhoneIsOpen(1);
   }, []);
 
   return isTabletOrMobile ? (
-    <div className={`mt-6  sm:mt-[0px]`}>
+    <div className={`mt-6 bg-[#3A54AA] -ml-14 z-10 sm:mt-[0px]`}>
       {isTabletOrMobile ? (
-        <div className="">
+        <div className="absolute top-5 left-5 text-black">
           <AiOutlineMenu
             onClick={() => {
-              console.log("VCLie", inPhoneIsOpen);
               setInPhoneIsOpen(!inPhoneIsOpen);
             }}
           />
@@ -120,9 +120,16 @@ export default function Navbar() {
         {inPhoneIsOpen ? (
           <div
             className={`${
-              isTabletOrMobile ? "absolute bg-black" : ""
-            } h-screen mr-10 sm:mr-[0px] border-r overflow-x-hidden overflow-y-scroll text-white pl-10 items-start  py-10 `}
+              isTabletOrMobile ? "absolute left-10 -top-6" : ""
+            } h-screen bg-[#3A54AA] z-100 mr-10 sm:mr-[0px] border-r overflow-x-hidden overflow-y-scroll text-white pl-10 items-start  py-10 `}
           >
+            <div className="absolute top-5 left-8 text-white">
+              <AiOutlineMenu
+                onClick={() => {
+                  setInPhoneIsOpen(!inPhoneIsOpen);
+                }}
+              />
+            </div>
             <div className="mt-10 text-2xl text-left  ">Name</div>
             <div className="mt-20 text-left flex flex-col gap-5">
               <Link to={`/${localStorage.getItem("id")}`}>
@@ -140,7 +147,6 @@ export default function Navbar() {
                   }`}
                   onClick={() => {
                     setIsOpen((isOpen) => !isOpen);
-                    console.log(isOpen);
                   }}
                 >
                   <AiOutlineSearch className={`h-7 w-7 `} />
@@ -159,7 +165,6 @@ export default function Navbar() {
                       className="cursor-pointer"
                       onClick={() => {
                         setIsOpen((isOpen) => !isOpen);
-                        console.log(isOpen);
                       }}
                     />
 
@@ -235,7 +240,6 @@ export default function Navbar() {
         <div className="">
           <AiOutlineMenu
             onClick={() => {
-              console.log("VCLie", inPhoneIsOpen);
               setInPhoneIsOpen(!inPhoneIsOpen);
             }}
           />
@@ -266,7 +270,6 @@ export default function Navbar() {
               }`}
               onClick={() => {
                 setIsOpen((isOpen) => !isOpen);
-                console.log(isOpen);
               }}
             >
               <AiOutlineSearch className={`h-7 w-7 `} />
@@ -285,7 +288,6 @@ export default function Navbar() {
                   className="cursor-pointer"
                   onClick={() => {
                     setIsOpen((isOpen) => !isOpen);
-                    console.log(isOpen);
                   }}
                 />
 

@@ -63,9 +63,7 @@ export default function Editprofile() {
   //   }
   // };
   const handleChange = (e) => {
-    console.log("ASdsad");
     const file = e.target.files[0];
-    console.log(file, "Sd");
     if (!file) return;
     const storageRef = ref(storage, `files/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
@@ -100,7 +98,7 @@ export default function Editprofile() {
 
   return (
     <div className="flex">
-      <div className="sm:w-3/12 ml-4 sm:ml-[0px]">
+      <div className="sm:w-3/12  w-[1px] ml-4 sm:ml-[0px]">
         <Navbar />
       </div>
       <div className="h-screen bg-[#e2eefe] text-[#58609b] sm:w-10/12 w-full flex gap-10 flex-col justify-center items-center">

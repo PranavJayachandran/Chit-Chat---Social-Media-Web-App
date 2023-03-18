@@ -145,14 +145,17 @@ export default function Profile() {
         mutualFriends.indexOf(temp) === -1
       ) {
         console.log(temp);
-        if (setMutualFriends.indexOf(temp) === -1)
-          setMutualFriends((prev) => [...prev, temp]);
+        let p = 0;
+        for (const mutualFriend of mutualFriends) {
+          if (mutualFriend.email === temp.email) p = 1;
+        }
+        if (p === 0) setMutualFriends((prev) => [...prev, temp]);
       }
     });
   };
 
   useEffect(() => {
-    console.log(mutualFriends[0]);
+    console.log(mutualFriends, "MUTUALS");
   }, [mutualFriends]);
   return (
     <div className="bg-[#e2eefe]">
@@ -209,9 +212,9 @@ export default function Profile() {
             ) : mutualFriends.length > 2 ? (
               <div>
                 <div
-                  className="cursor-pointer flex gap-2 text-md font-light hover:underline"
+                  className="text-black cursor-pointer flex gap-2 text-md hover:underline"
                   onClick={() => {
-                    setShowMutualFriends(1);
+                    setShowMutualFriends(1 - showMutualFriends);
                   }}
                 >
                   <div>Friends with</div>
@@ -239,9 +242,9 @@ export default function Profile() {
             ) : (
               <div>
                 <div
-                  className="flex text-md font-light items-center gap-2 hover:underline cursor-pointer"
+                  className="flex text-black text-md  items-center gap-2 hover:underline cursor-pointer"
                   onClick={() => {
-                    setShowMutualFriends(1);
+                    setShowMutualFriends(1 - showMutualFriends);
                   }}
                 >
                   <div>Friends with</div>
@@ -254,7 +257,7 @@ export default function Profile() {
                     ))}
                   </div>
                 </div>
-                <div className="-ml-16">
+                <div className="">
                   <Mutuals
                     data={mutualFriends}
                     show={showMutualFriends}

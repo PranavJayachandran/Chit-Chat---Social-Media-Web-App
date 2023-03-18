@@ -14,7 +14,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { addEmail } from "../redux/features/counter/counterSlice";
 import toid from "../utils/convertemailtoid";
 import { motion } from "framer-motion";
-import { BsFillCaretLeftFill } from "react-icons/bs";
+import person1 from "../assets/person1.jpeg";
+import person2 from "../assets/person2.jpeg";
+import { BsSendFill } from "react-icons/bs";
 
 const auth = getAuth(app);
 
@@ -51,8 +53,66 @@ export default function Signup() {
     <div>
       <div className="h-screen bg-black flex w-full text-white">
         <div className=" text-white w-full flex bg-white">
-          <div className="w-6/12 bg-[#3A54AA] flex justify-center items-center">
-            <img src={bg} className="blackwhite h-96 w-96" />
+          <div className="w-6/12 bg-[#3A54AA] flex flex-col gap-10 justify-center items-center">
+            <div className="bg-white  px-4 py-10  flex flex-col justify-center gap-7 h-96 w-96 rounded-xl">
+              <div className=" bg-blue-500 items-center py-2 px-4 -mx-4 flex -mt-10 rounded-t-xl">
+                <div className=" pr-1  rounded-r-full">
+                  <div className="h-10 w-10 rounded-full overflow-hidden">
+                    <img src={person1} className="h-10 w-10" />
+                  </div>
+                </div>
+                <div className=" rounded-l-full w-40 py-2 text-white font-semibold text-xl">
+                  Tom Sheapard
+                </div>
+              </div>
+              <div className="flex items-center justify-end">
+                <div className="bg-blue-500 rounded-l-full w-40 py-2">Hai</div>
+                <div className="bg-blue-500 pr-1  rounded-r-full">
+                  <div className="h-10 w-10 rounded-full overflow-hidden">
+                    <img src={person1} className="h-10 w-10" />
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center justify-start">
+                <div className="bg-violet-600 pr-1  rounded-l-full">
+                  <div className="h-10 w-10 rounded-full overflow-hidden">
+                    <img src={person2} className="h-10 w-10" />
+                  </div>
+                </div>
+                <div className="bg-violet-600 rounded-r-full w-40 py-2">
+                  Hai
+                </div>
+              </div>
+              <div className="flex items-center justify-end">
+                <div className="bg-blue-500 rounded-l-full w-40 py-2">Hai</div>
+                <div className="bg-blue-500 pr-1  rounded-r-full">
+                  <div className="h-10 w-10 rounded-full overflow-hidden">
+                    <img src={person1} className="h-10 w-10" />
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center justify-start">
+                <div className="bg-violet-600 pr-1  rounded-l-full">
+                  <div className="h-10 w-10 rounded-full overflow-hidden">
+                    <img src={person2} className="h-10 w-10" />
+                  </div>
+                </div>
+                <div className="bg-violet-600 rounded-r-full w-40 py-2">
+                  Hai
+                </div>
+              </div>
+              <div className="text-black flex items-center justify-center">
+                <div className="px-4 rounded-l-xl bg-gray-200 flex items-center h-10 w-full">
+                  Send a Message
+                </div>
+                <div className="bg-gray-200 rounded-r-xl  px-4 h-10 flex justify-center items-center">
+                  <BsSendFill />
+                </div>
+              </div>
+            </div>
+            <div className="text-2xl text-white font-light">
+              Meet new Friends and keep connected
+            </div>
           </div>
           <div className="w-6/12 text-black gap-10 flex flex-col justify-center items-center ">
             <div className="">

@@ -4,16 +4,14 @@ import Profile from "./Profile";
 
 export default function Home() {
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      console.log(position.coords.latitude, position.coords.longitude);
-    });
+    navigator.geolocation.getCurrentPosition(function (position) {});
   }, []);
   return (
-    <div className="App bg-black flex justify-center">
-      <div className="sm:w-[300px]">
+    <div className="App flex justify-center">
+      <div className="sm:w-[300px] w-[1px]">
         <Navbar />
       </div>
-      <div className=" sm:w-10/12">
+      <div className=" sm:w-10/12 w-full">
         <Profile />
       </div>
     </div>

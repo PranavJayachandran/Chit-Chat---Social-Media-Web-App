@@ -17,7 +17,7 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { motion } from "framer-motion";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import Notifications from "./Notifications";
-import { getNotificationCount } from "../utils/convertemailtoid";
+import toid, { getNotificationCount } from "../utils/convertemailtoid";
 import { useMediaQuery } from "react-responsive";
 
 const variants = {
@@ -90,7 +90,9 @@ export default function Navbar() {
     // } else {
     //   console.log("No such document!");
     // }
-    let data = await getNotificationCount(localStorage.getItem("id"));
+    let data = await getNotificationCount(
+      await toid(localStorage.getItem("Email"))
+    );
     setNoti(data.notification_count);
     setReq(data.req);
   };
@@ -130,7 +132,7 @@ export default function Navbar() {
                 }}
               />
             </div>
-            <div className="mt-10 text-2xl text-left  ">Name</div>
+            <div className="mt-10 text-2xl text-left  ">CHIT CHAT</div>
             <div className="mt-20 text-left flex flex-col gap-5">
               <Link to={`/${localStorage.getItem("id")}`}>
                 <div className="flex gap-4 items-center">

@@ -52,7 +52,7 @@ export default function Profile() {
     //   // doc.data() will be undefined in this case
     //   console.log("No such document!");
     // }
-    data = await getData(localStorage.getItem("id"));
+    data = await getData(id);
   };
   useEffect(() => {
     setLoaded(0);
@@ -144,7 +144,6 @@ export default function Profile() {
         data.friend.indexOf(item) !== -1 &&
         mutualFriends.indexOf(temp) === -1
       ) {
-        console.log(temp);
         let p = 0;
         for (const mutualFriend of mutualFriends) {
           if (mutualFriend.email === temp.email) p = 1;
@@ -154,9 +153,6 @@ export default function Profile() {
     });
   };
 
-  useEffect(() => {
-    console.log(mutualFriends, "MUTUALS");
-  }, [mutualFriends]);
   return (
     <div className="bg-[#e2eefe]">
       {userData.username !== "" ? (

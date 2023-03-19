@@ -75,6 +75,7 @@ export default function FriendsPage() {
   const { id } = useParams();
   const [friends, setFriends] = useState([]);
   const [loading, setLoading] = useState(1);
+  const [isSignedInUser, setIsSignedInUser] = useState(0);
   const tempdata = [
     {
       username: "",
@@ -116,7 +117,12 @@ export default function FriendsPage() {
     setFriends(data.friend);
     setLoading(0);
   };
+  const ifOriginalUser = async () => {
+    const id2 = await toid(localStorage.getItem("Email"));
+    if (id2 === id) setIsSignedInUser(1);
+  };
   useEffect(() => {
+    ifOriginalUser();
     getFriends();
   }, []);
   return (
@@ -130,7 +136,7 @@ export default function FriendsPage() {
             <div className="text-xl sm:text-3xl font-semibold">
               Here are all the Friends
             </div>
-          ) : id === localStorage.getItem("id") ? (
+          ) : isSignedInUser === 1 ? (
             <div className="text-2xl flex flex-col gap-2">
               <div>Lets make new friends</div>
               <div className="flex justify-center">

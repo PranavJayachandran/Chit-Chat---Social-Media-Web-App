@@ -32,7 +32,6 @@ function Friend({ data, friendOf }) {
     //   setId(doc.id);
     // });
     setId(await toid(data.email));
-    console.log("changed");
     // const docRef = doc(db, "social", id);
     // const docSnap = await getDoc(docRef);
 
@@ -50,7 +49,7 @@ function Friend({ data, friendOf }) {
     //   // doc.data() will be undefined in this case
     //   console.log("No such document!");
     // }
-    userData = await getData(id);
+    if (id !== 0) userData = await getData(id);
   };
   const addData2 = async () => {
     // await setDoc(doc(db, "social", id), {
@@ -76,23 +75,22 @@ function Friend({ data, friendOf }) {
   useEffect(() => {
     getData2();
   }, []);
-  useEffect(() => {
-    console.log(id, data);
-  }, [id]);
 
   return (
     <div className="">
       {data ? (
         <div className="bg-[#f6f9ff] flex w-40 flex-col items-center justify-center  gap-2 border px-8 py-4 rounded-xl">
           {id !== 0 ? (
-            <div className="gap-2 flex flex-col justify-center items-center">
+            <div className=" gap-2 flex flex-col justify-center items-center">
               <Link to={`/${id}`}>
-                <div className="h-14 w-14 sm:h-20 sm:w-20 rounded-full flex justify-center items-center overflow-hidden">
-                  <img src={data.image} className="h-20 w-20" />
-                </div>
-                <div className="sm:text-md text-sm text-black">
-                  {data.username.substr(0, 10)}
-                  {data.username.length > 10 ? "...." : ""}
+                <div className="flex justify-center flex-col items-center">
+                  <div className="h-14 w-14 sm:h-20 sm:w-20 rounded-full flex justify-center items-center overflow-hidden">
+                    <img src={data.image} className="h-20 w-20" />
+                  </div>
+                  <div className="sm:text-md text-sm text-black">
+                    {data.username.substr(0, 10)}
+                    {data.username.length > 10 ? "...." : ""}
+                  </div>
                 </div>
               </Link>
               <div
@@ -129,19 +127,7 @@ function Friend({ data, friendOf }) {
 }
 
 function Friends({ title, data, friendOf }) {
-  const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-width: 1224px)",
-  });
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
-  const email = localStorage.getItem("Email");
-  const [userName, setUserName] = useState();
-  const [bio, setBio] = useState();
-  const [link, setLink] = useState();
-  const [image, setImage] = useState();
-  const [lat, setLat] = useState();
-  const [long, setLong] = useState();
-  const [friend, setFriend] = useState([]);
-
   const [nonfriends, setNonFriends] = useState([]);
   const [ordered, setOrdered] = useState([]);
 
@@ -256,56 +242,56 @@ function Friends({ title, data, friendOf }) {
     getSorted();
   }, [nonfriends]);
 
-  useEffect(() => {
-    console.log(ordered);
-  }, [ordered]);
-
-  useEffect(() => {}, [ordered]);
-
   return !isTabletOrMobile ? (
-    <div className="flex flex-col font-semibold  gap-4 pl-20">
-      <div className="sm:text-2xl text-left text-[#505695]">{title}</div>
-      <div className="sm:w-[900px] w-80 flex flex-col -ml-10">
-        {data.length === 0 ? (
-          <Carousel cols={5} rows={1} loop>
-            {tempdata.map((item, index) => (
-              <Carousel.Item>
-                <Friend data={item} friendOf={friendOf} />
-              </Carousel.Item>
-            ))}
-          </Carousel>
-        ) : (
-          <>
+    (title === "Recommendation" && friendOf.length > 0) ||
+    title !== "Recommendation" ? (
+      <div className="flex flex-col font-semibold  gap-4 pl-20">
+        <div className="sm:text-2xl text-left text-[#505695]">{title}</div>
+        <div className="sm:w-[900px] w-80 flex flex-col -ml-10">
+          {data.length === 0 ? (
             <Carousel cols={5} rows={1} loop>
-              {title === "Recommendation" ? (
-                ordered.length === 0 ? (
-                  <Carousel cols={2} rows={1} loop>
-                    {tempdata.map((item, index) => (
+              {tempdata.map((item, index) => (
+                <Carousel.Item>
+                  <Friend data={item} friendOf={friendOf} />
+                </Carousel.Item>
+              ))}
+            </Carousel>
+          ) : (
+            <>
+              <Carousel cols={5} rows={1} loop>
+                {title === "Recommendation" && friendOf.length === 0 ? (
+                  ordered.length === 0 ? (
+                    <Carousel cols={2} rows={1} loop>
+                      {tempdata.map((item, index) => (
+                        <Carousel.Item>
+                          <Friend data={item} friendOf={friendOf} />
+                        </Carousel.Item>
+                      ))}
+                    </Carousel>
+                  ) : (
+                    ordered.map((item, index) => (
                       <Carousel.Item>
                         <Friend data={item} friendOf={friendOf} />
                       </Carousel.Item>
-                    ))}
-                  </Carousel>
+                    ))
+                  )
                 ) : (
-                  ordered.map((item, index) => (
+                  nonfriends.map((item, index) => (
                     <Carousel.Item>
                       <Friend data={item} friendOf={friendOf} />
                     </Carousel.Item>
                   ))
-                )
-              ) : (
-                nonfriends.map((item, index) => (
-                  <Carousel.Item>
-                    <Friend data={item} friendOf={friendOf} />
-                  </Carousel.Item>
-                ))
-              )}
-            </Carousel>
-          </>
-        )}
+                )}
+              </Carousel>
+            </>
+          )}
+        </div>
       </div>
-    </div>
-  ) : (
+    ) : (
+      <></>
+    )
+  ) : (title === "Recommendation" && friendOf.length > 0) ||
+    title !== "Recommendation" ? (
     <div className="flex flex-col font-semibold  gap-4 pl-20">
       <div className="sm:text-2xl text-left text-[#505695]">{title}</div>
       <div className="sm:w-[900px] w-80 flex flex-col -ml-10">
@@ -317,7 +303,7 @@ function Friends({ title, data, friendOf }) {
           </div>
         ) : (
           <>
-            {title === "Recommendation" ? (
+            {title === "Recommendation" && friendOf.length === 0 ? (
               ordered.length === 0 ? (
                 <div className="flex gap-4 overflow-x-scroll ">
                   {ordered.map((item, index) => (
@@ -342,13 +328,16 @@ function Friends({ title, data, friendOf }) {
         )}
       </div>
     </div>
+  ) : (
+    <></>
   );
 }
 export default function MeetPeople() {
   const [data, setData] = useState([]);
-  const id = localStorage.getItem("id");
+  let id = 0;
   const [friendOf, setFriendOf] = useState([]);
   const getData = async () => {
+    id = await toid(localStorage.getItem("Email"));
     const docRef = doc(db, "social", id);
     const docSnap = await getDoc(docRef);
 

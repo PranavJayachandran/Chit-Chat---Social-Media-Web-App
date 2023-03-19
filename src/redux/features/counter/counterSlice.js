@@ -10,11 +10,11 @@ export const counterSlice = createSlice({
     reducers: {
         addEmail: (state, action) => {
             state.email = action.payload;
-            console.log(current(state));
+
         },
         removeEmail: (state) => {
             state.email = "";
-            console.log(current(state));
+
         }
     },
 })

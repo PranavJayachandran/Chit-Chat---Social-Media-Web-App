@@ -47,6 +47,8 @@ Chitchat was built using
 * TailwindCSS
 * FireBase
 
+ReactJs was the JS framework used. Tailwind was used to make the styling easier with inline classname addition using TailwindCSS. Instead of setting up a backend with NodeJs and ExpressJs, Firebase was used to easen and fasten the process of building the project.
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -97,7 +99,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@Pranav Jayachandran](https://twitter.com/pranj) - pranavjay02@gmail.com
+Your Name - [@Pranav Jayachandran](https://twitter.com/PranavJayachan2) - pranavjay02@gmail.com
 
 Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
 

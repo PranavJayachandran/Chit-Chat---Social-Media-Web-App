@@ -64,8 +64,6 @@ To get a local copy up and running follow these simple example steps.
 * Node installed, to be able to use npm
 
 
-  ```
-
 ### Installation
 
 Below is the setup to set up the project and run the project locally

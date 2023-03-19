@@ -114,9 +114,6 @@ Project Link: [Repo](https://github.com/PranavJayachandran/Chit-Chat---Social-Me
 
 
 
-https://www.youtube.com/watch?v=54v1dMZcD8M
-
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge

@@ -61,6 +61,8 @@ ReactJs was the JS framework used. Tailwind was used to make the styling easier 
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
+Note that you will have to setup firestore and put your credentials into firebase file. If the app doesn't work, probably the firestore daily limit has been breached.
+
 ### Prerequisites
 
 * Need Github CLI to clone the project

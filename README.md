@@ -22,6 +22,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
+    <li><a href="#The Recommendation Algorithm">Usage</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>

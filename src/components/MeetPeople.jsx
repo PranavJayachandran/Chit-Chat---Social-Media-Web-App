@@ -14,56 +14,15 @@ import { useMediaQuery } from "react-responsive";
 
 function Friend({ data, friendOf }) {
   const xemail = localStorage.getItem("Email");
-  // const [userName, setUserName] = useState("");
-  // const [bio, setBio] = useState();
-  // const [link, setLink] = useState();
-  // const [image, setImage] = useState();
-  // const [lat, setLat] = useState();
-  // const [long, setLong] = useState();
-  // const [friend, setFriend] = useState([]);
   let userData = {};
   const [alreadyfriend, setAlreadyFriend] = useState(0);
   const [id, setId] = useState(0);
   const getData2 = async () => {
-    // const socialRef = collection(db, "social");
-    // const q = query(socialRef, where("email", "==", data.email));
-    // const querySnapshot = await getDocs(q);
-    // querySnapshot.forEach((doc) => {
-    //   setId(doc.id);
-    // });
     setId(await toid(data.email));
-    // const docRef = doc(db, "social", id);
-    // const docSnap = await getDoc(docRef);
 
-    // if (docSnap.exists()) {
-    //   username = docSnap.data().username;
-    //   bio = docSnap.data().bio;
-    //   friend = docSnap.data().friend;
-    //   image = docSnap.data().image;
-    //   lat = docSnap.data().lat;
-    //   long = docSnap.data().long;
-    //   link = docSnap.data().link;
-    //   req = docSnap.data().req;
-    //   email = docSnap.data().email;
-    // } else {
-    //   // doc.data() will be undefined in this case
-    //   console.log("No such document!");
-    // }
     if (id !== 0) userData = await getData(id);
   };
   const addData2 = async () => {
-    // await setDoc(doc(db, "social", id), {
-    //   username: username,
-    //   bio: bio,
-    //   link: link,
-    //   email: email,
-    //   image: image,
-    //   lat: lat,
-    //   long: long,
-    //   friend: friend,
-    //   req: req,
-    // });
-
     await addData(id, userData);
   };
   const addFriend = async () => {
@@ -200,27 +159,6 @@ function Friends({ title, data, friendOf }) {
     },
   ];
 
-  // const getData = async () => {
-  //   const docRef = doc(db, "social", email);
-  //   const docSnap = await getDoc(docRef);
-
-  //   if (docSnap.exists()) {
-  //     setUserName(docSnap.data().username);
-  //     setBio(docSnap.data().bio);
-  //     setFriend(docSnap.data().friend);
-  //     setImage(docSnap.data().image);
-  //     setLat(docSnap.data().lat);
-  //     setLong(docSnap.data().long);
-  //     setLink(docSnap.data().link);
-  //   } else {
-  //     // doc.data() will be undefined in this case
-  //     console.log("No such document!");
-  //   }
-  // };
-  // const addFriend = async () => {
-  //   getData();
-  // };
-
   useEffect(() => {
     data.forEach((element) => {
       let p = 0;
@@ -259,9 +197,10 @@ function Friends({ title, data, friendOf }) {
           ) : (
             <>
               <Carousel cols={5} rows={1} loop>
-                {title === "Recommendation" && friendOf.length === 0 ? (
+                {title === "Recommendation" ? (
                   ordered.length === 0 ? (
-                    <Carousel cols={2} rows={1} loop>
+                    <Carousel cols={5} rows={1} loop>
+                      sf
                       {tempdata.map((item, index) => (
                         <Carousel.Item>
                           <Friend data={item} friendOf={friendOf} />

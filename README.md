@@ -106,7 +106,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 Your Name - [@Pranav Jayachandran](https://twitter.com/PranavJayachan2) - pranavjay02@gmail.com
 
-Project Link: [Repo](https://github.com/PranavJayachandran/Chit-Chat---Social-Media-Web-App) [Hosted Link]()
+Project Link: [Repo](https://github.com/PranavJayachandran/Chit-Chat---Social-Media-Web-App) [Hosted Link](https://care-stack.web.app/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

@@ -82,6 +82,10 @@ Below is the setup to set up the project and run the project locally
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- The Recommendation Algorithm -->
+## The Recommendation Algorithm
+
+The friends recomendation algorithm, right now recommends friends of your friends. But it will be extended to use the location data that is being taken to recommend people who are closer to you.
 
 
 <!-- USAGE EXAMPLES -->

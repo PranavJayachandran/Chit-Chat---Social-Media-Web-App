@@ -36,6 +36,8 @@
 
 Chitchat is a social media app. It currently has the feature of the user being able to add friends (and unfriend them) and search for friends. The hope is to turn ChitChat into a fully functioning anonymous text app with the feature of text vanishing once read.
 
+The video link of the project : https://www.youtube.com/watch?v=rNS4QzXmeJ4
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 

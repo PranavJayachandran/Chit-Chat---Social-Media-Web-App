@@ -44,7 +44,7 @@ Chitchat is a social media app. It currently has the feature of the user being a
 Chitchat was built using
 
 * ReactJs
-* TailwindCSs
+* TailwindCSS
 * FireBase
 
 
@@ -105,8 +105,6 @@ Project Link: [https://github.com/your_username/repo_name](https://github.com/yo
 
 
 
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 

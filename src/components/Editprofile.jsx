@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { db, storage } from "../firebase/firestore";
-import { useSelector, useDispatch } from "react-redux";
-import { selectEmail } from "../redux/features/counter/counterSlice";
 import { useNavigate } from "react-router-dom";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { getData, addData } from "../utils/convertemailtoid";

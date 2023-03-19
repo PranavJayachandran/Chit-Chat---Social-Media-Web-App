@@ -7,8 +7,6 @@ import {
 } from "react-icons/ai";
 import { MdNotifications } from "react-icons/md";
 import { FaUserFriends } from "react-icons/fa";
-import { useSelector, useDispatch } from "react-redux";
-import { removeEmail } from "../redux/features/counter/counterSlice";
 import { getAuth, signOut } from "firebase/auth";
 import app, { db } from "../firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
@@ -52,12 +50,10 @@ export default function Navbar() {
   const [noti, setNoti] = useState(0);
   const [req, setReq] = useState([]);
   const [nouser, setNoUser] = useState(0);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const signout = () => {
     signOut(auth)
       .then(() => {
-        dispatch(removeEmail());
         localStorage.clear();
         navigate("/login");
       })

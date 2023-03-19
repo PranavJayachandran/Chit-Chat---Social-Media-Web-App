@@ -10,8 +10,6 @@ import app from "../firebase/firestore";
 import google from "../assets/google.jpeg";
 import bg from "../assets/bg.png";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { addEmail } from "../redux/features/counter/counterSlice";
 import toid from "../utils/convertemailtoid";
 import { motion } from "framer-motion";
 import person1 from "../assets/person1.jpeg";
@@ -31,7 +29,6 @@ export default function Signup() {
     open: { opacity: 1 },
     closed: { opacity: 0, x: 100 },
   };
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [alreadyuser, setAlreadyUser] = useState(0);
   const [firstLoad, setFirstLoad] = useState(0);

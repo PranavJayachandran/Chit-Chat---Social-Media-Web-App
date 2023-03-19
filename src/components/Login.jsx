@@ -10,8 +10,6 @@ import app, { db } from "../firebase/firestore";
 import google from "../assets/google.jpeg";
 import bg from "../assets/bg.png";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { addEmail } from "../redux/features/counter/counterSlice";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import toid, { getData } from "../utils/convertemailtoid";
 import { BsFillCaretLeftFill } from "react-icons/bs";
@@ -33,7 +31,7 @@ export default function Login() {
     open: { opacity: 1 },
     closed: { opacity: 0, x: 100 },
   };
-  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const [nouser, setNoUser] = useState(0);
   const [firstLoad, setFirstLoad] = useState(0);
